@@ -1,0 +1,48 @@
+
+\subsection{Οριζόντια φορτία λόγω παράγωγης κίνησης της γερανογέφυρας (συνδυασμός 5)}
+Κατά την κίνηση της η γερανογέφυρα ακολουθεί μια λοξή πορεία ως προς τις τροχιές της. Το γεγονός αυτό έχει ως συνέπεια τη δημιουργία των εξής δυνάμεων:
+\begin{itemize} 
+\item της οδηγούσας δύναμης $S$ που ασκείται στη θέση των μέσων καθοδήγησης, και
+\item των εγκάρσιων ως προς τις τροχιές δυνάμεων που ασκούνται σε κάθε τροχό.
+\end{itemize}
+
+\begin{align*}
+\sum{Q_r} &= \displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}} =  62.07 \text{ KN} \\ 
+ξ_1    	  &= \dfrac{\displaystyle\sum{Q_{r,max}}}{\displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}}} =   0.75 \text{ KN} \\ 
+ξ_2       &= 1 - ξ1 =   0.25 \text{ KN} \\ 
+α    	  &= 0.0015 \text{ rad} \\ 
+f         &= 0.3 \times \left(1 - e^{-250 \times α}\right) =   0.29
+\end{align*}
+
+Αφού το σύστημα κύλισης της γερανογέφυρας είναι IFF έχουμε:
+\begin{align*}
+h          &= \dfrac{m \times ξ_1 \times ξ_2 \times L^2 + \sum{e_i^2}}{\sum{e_i}} =   1.60 \\ 
+λ_s        &= 1 - \dfrac{\sum{e_i}}{n \times h} =    0.50 \\ 
+λ_{S,11,L} &=   0.00 \\ 
+λ_{S,12,L} &=   0.00 \\ 
+λ_{S,21,L} &=   0.00 \\ 
+λ_{S,22,L} &=   0.00 \\ 
+λ_{S,11,T} &= \dfrac{ξ_2}{n} \times \left(1 - \dfrac{e_1}{h}\right) =   0.12 \\ 
+λ_{S,12,T} &= \dfrac{ξ_2}{n} \times \left(1 - \dfrac{e_2}{h}\right) =   0.38 \\ 
+λ_{S,21,T} &= \dfrac{ξ_1}{n} \times \left(1 - \dfrac{e_1}{h}\right) =   0.00 \\ 
+λ_{S,22,T} &= \dfrac{ξ_1}{n} \times \left(1 - \dfrac{e_2}{h}\right) =   0.00
+\end{align*}
+
+Άρα οι ασκούμενες δυνάμεις είναι:
+\begin{align*}
+S                &= f \times λ_s \times \sum{Q_r} =   9.09 \text{ KN} \\ 
+H_{S,11,L}       &= f \times λ_{s,11,L} \times \sum{Q_r} =   0.00 \text{ KN} \\ 
+H_{S,12,L}       &= f \times λ_{s,12,L} \times \sum{Q_r} =   0.00 \text{ KN} \\ 
+H_{S,21,L}       &= f \times λ_{s,21,L} \times \sum{Q_r} =   0.00 \text{ KN} \\ 
+H_{S,22,L}       &= f \times λ_{s,22,L} \times \sum{Q_r} =   0.00 \text{ KN} \\ 
+H_{S,11,T}       &= f \times λ_{s,11,T} \times \sum{Q_r} =   2.26 \text{ KN} \\ 
+H_{S,12,T}       &= f \times λ_{s,12,T} \times \sum{Q_r} =   0.00 \text{ KN} \\ 
+H_{S,21,T}       &= f \times λ_{s,21,T} \times \sum{Q_r} =   6.83 \text{ KN} \\ 
+H_{S,22,T}       &= f \times λ_{s,22,T} \times \sum{Q_r} =   0.00 \text{ KN} 
+\end{align*}
+
+Τελικά στη θέση του προπορευόμενου ζεύγους τροχών έχουμε:
+\begin{align*}
+H_{S,1T} &= H_{S,11,T} - S =  -6.83 \text{ KN} \\
+H_{S,2T} &= H_{S,21,T} =   6.83 \text{ KN}
+\end{align*}

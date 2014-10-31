@@ -1,0 +1,24 @@
+{
+    "logging": {
+        "version": 1,
+        "disable_existing_loggers": "True",
+        "formatters": {
+            "simple": {
+                "class": "logging.Formatter",
+                "format": "%(levelname)-8s; %(asctime)s; %(name)-15s; %(message)s"
+            }
+        },
+        "handlers": {
+            "console":{
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "formatter": "simple",
+                "stream" : "ext://sys.stdout"
+            }
+        },
+        "root": {
+            "handlers": ["console"],
+            "level": "DEBUG"
+        }
+    }
+}

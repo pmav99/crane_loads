@@ -1,0 +1,52 @@
+\documentclass[a4paper,10pt, final, oneside, fleqn, onecolumn]{article}	%fleqn
+
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage[math-style=TeX]{unicode-math}
+%\setmathfont{Asana-Math.otf}
+\setmathfont{XITS}
+%\setmathfont{Cambria Math}
+
+\usepackage{xltxtra}
+\usepackage{xgreek}
+%\setmainfont{MinionPro-Regular_2.otf}
+\setmainfont{Kerkis}
+\usepackage[hmargin=2.5cm,vmargin=3cm]{geometry}
+%\usepackage[labelsep=colon]{caption}
+
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{rotating}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{\bfseries Φορτία Γερανογέφυρας}
+\rhead{}
+\lfoot{\textbf{X. Δράτσιος}}
+\cfoot{\thepage}
+\rfoot{\textbf{ΑΜ ΤΕΕ : 98997}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+
+
+%\linespread{1.3}
+
+\widowpenalty=1000
+\clubpenalty=1000
+
+%\newcommand{\supp}[1]{\ensuremath{^{\textrm{#1}}}} 
+%\newcommand{\subb}[1]{\ensuremath{_{\textrm{#1}}}}
+
+\setlength{\tabcolsep}{2pt}
+\begin{document}
+
+\input{./crane_loads_input.tex}	
+\input{./crane_loads_forces.tex}
+\input{./fatigue.tex}
+\input{./table.tex}
+
+\end{document}
