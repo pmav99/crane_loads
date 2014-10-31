@@ -1,40 +1,326 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# author: Panagiotis Mavrogiorgos
+# email : gmail, pmav99
 
-import sys
+"""
+Calculate crane Loads according to Eurocode.
+"""
+
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import absolute_import
+
 import os
-import cPickle
-from crane_loads_read_input import Crane_Loads_Read_Input
-from crane_loads_print_input import Crane_Loads_Print_Input
-from crane_loads_calculate_forces import Calculate_Crane_Forces
+import sys
+import logging
+import numbers
+import subprocess
+from math import exp
+from collections import namedtuple
 
-class Crane_Loads:
-    """
-    Η βασική κλάση του υπολογισμού των φορτίων της γερανογέφυρας
-    """
+
+from jinja2 import Environment, PackageLoader
+
+IMPORTS = set(["division", "tables"])
+
+# In the code we follow these conventions:
+#       ABC#    : The "#" corresponds to the combination index.
+#       ABC_#   # The "#" corresponds to the rail index (1 or 2).
+
+
+QR = namedtuple("QR", "Gcr_v Gtr_v Qh SQr_MIN Qr_MIN SQr_min Qr_min SQr_MAX Qr_MAX SQr_max Qr_max")
+HT = namedtuple("HT", "K HL ksi1 ksi2 Ls M HT_1 HT_2")
+
+
+class CraneLoads(object):
+    skewing_templates = {
+        "IFF": "IFF.tex",
+        "IFM": "IFM.tex",
+        "CFF": "CFF.tex",
+        "CFM": "CFM.tex",
+    }
+
     def __init__(self):
-        """
-        Μέσα από τη μέθοδο __init__, με τη δημιουργία της instance της κλάσης, 
-        γίνεται ο υπολογισμός των φορτίων της Γερανογέφυρας.
-        """
-        # Δημιουργία μιας instance της Crane_Loads_Read_Input() για να διαβαστούν
-        # τα δεδομένα και στη συνέχεια να γίνουν pickle
-        read_loads_input = Crane_Loads_Read_Input()
-        
-        # Εκτύπωση των δεδομένων
-        print_loads_input = Crane_Loads_Print_Input()
+        self.logger = logging.getLogger().getChild("loads")
+        self.env = Environment(loader=PackageLoader('crane_loads', 'templates'))
+        self.data = {}
 
-        forces = Calculate_Crane_Forces()
-            
-#        print("Serviceability Limit States")
-#        forces.Print_V_Table(Qr_min_1, Qr_min_2, Qr_min_3, Qr_min_4, Qr_min_5, \
-#            Qr_max_1, Qr_max_2, Qr_max_3, Qr_max_4, Qr_max_5, H_1, H_1, H_4, H_4, H_4)
+    def calc(self):
+        # apply precision
+        #d = self.data
+        #for key, value in d.items():
+            #if isinstance(value, numbers.Number):
+                #d[key] = "%.3f" % value
 
-if __name__ == "__main__":
-    # Redirecting stdout to a file named out.txt
-#    cwd = os.curdir
-#    sys.stdout = open(os.path.join(cwd, 'ofile_Loads.txt'), mode='w')
-    
-    crane_loads = Crane_Loads()
-    
-    os.system("xelatex -interaction=nonstopmode crane_loads.tex")
+        self.calc_Qr()
+        self.calc_Ht()
+        self.calc_Hs()
+        self.calc_fatigue()
+
+    def _create_tex(self):
+        # we have to determine which skewing template to use during runtime.
+        skewing_template_name = self.skewing_templates[self.data["RT"]]
+
+        # get templates
+        self.logger.info("Loading templates.")
+        preamble_template = self.env.get_template("preamble.tex")
+        input_template = self.env.get_template("input.tex")
+        forces_template = self.env.get_template("forces.tex")
+        skewing_template = self.env.get_template(skewing_template_name)
+        fatigue_template = self.env.get_template("fatigue.tex")
+        table_template = self.env.get_template("table.tex")
+
+        # render tex document
+        self.logger.info("Rendering templates.")
+        input_text = input_template.render(**self.data)
+        forces_text = forces_template.render(**self.data)
+        skewing_text = skewing_template.render(**self.data)
+        fatigue_text = fatigue_template.render(**self.data)
+        table_text = table_template.render(**self.data)
+
+        self.logger.info("Creating tex document.")
+        tex_document = preamble_template.render(
+            input=input_text,
+            forces=forces_text,
+            skewing=skewing_text,
+            fatigue=fatigue_text,
+            table=table_text,
+        )
+
+        self.logger.info("Document created successfully!")
+        return tex_document
+
+    def to_pdf(self):
+        pass
+
+    def input_from_object(self, obj):
+        self.data.update(**obj)
+
+    def load_input_from_module(self, module_name):
+        """ Load input from the given python module. """
+        self.logger.info("Loading input from: %r", os.path.abspath(module_name))
+        input_module = __import__(os.path.splitext(module_name)[0])
+
+        # Get the variables from the input file excluding the imports
+        for attribute in dir(input_module):
+            if attribute.startswith("_") or attribute in IMPORTS:
+                continue
+            else:
+                self.data[attribute] = getattr(input_module, attribute)
+        self.logger.info("Succesfully loaded data.")
+
+    def calc_Qr(self):
+        # local names
+        d = self.data
+        v1, v2, v3, v4 = d["v1"], d["v2"], d["v3"], d["v4"]
+
+        # Υπολογισμός των κατακόρυφων φορτίων για κάθε συνδυασμό.
+        QR1 = self._calc_Qr(v1, v2)
+        QR2 = self._calc_Qr(v1, v3)
+        QR3 = self._calc_Qr(1, 0)
+        QR4 = self._calc_Qr(v4, v4)
+        QR5 = QR4
+
+        self.data.update({
+            "QR1": QR1,
+            "QR2": QR2,
+            "QR3": QR3,
+            "QR4": QR4,
+            "QR5": QR5,
+        })
+
+    def _calc_Qr(self, v_sw, v_hl):
+        """
+        Η μέθοδος αυτή υπολογίζει τα κατακόρυφα φορτία που ασκούνται από τη
+        γερανογέφυρα στη δοκό κυλίσεως. Οι υπολογισμοί γίνονται τόσο για τα
+        ελάχιστα όσο και για τα μέγιστα φορτία.
+
+        v_sw (selfweight) : ο δυναμικός συντελεστής φ για τον υπολογισμό του
+                            ιδίου βάρους της γερανογέφυρας (πρακτικά φ1 για
+                            ομάδες φορτίων 1, 2 και 8, φ4 για ομάδες φορτίων
+                            4, 5 και 6 και μονάδα για τις υπόλοιπες.
+        v_hl (hoist load) : ο δυναμικός συντελεστής για το ανυψούμενο φορτίο.
+        L : το μήκος της γερανογέφυρας.
+        e_min : η απόσταση της ακραίας θέσης του άγκιστρου ανάρτησης από τον
+                άξονα της δοκού κύλισης.
+        Gcr : το ίδιο βάρος του φορέα (χωρίς το φορείο).
+        Gtr : το ίδιο βάρος του φορείου (συγκεντρωμένο φορτίο).
+        Qr_nom : το φορτίο που φέρει η γερανογέφυρα.
+        """
+
+        # local names
+        d = self.data
+        Gcr, Gtr, Qnom, L, e_min  = d["Gcr"], d["Gtr"], d["Qr_nom"], d["L"], d["e_min"]
+
+        # calculations
+        Gcr_v = Gcr * v_sw
+        Gtr_v = Gtr * v_sw
+        # Unloaded crane
+        SQr_max = 0.5 * Gcr_v + Gtr_v * (L-e_min)/L     # Unfavorable axis
+        Qr_max = SQr_max / 2                            # Unfavorable axis
+        SQr_min = 0.5 * Gcr_v + Gtr_v * e_min/L         # Favorable axis
+        Qr_min = SQr_min / 2                            # Favorable axis
+        # Loaded crane
+        Qh = v_hl * Qnom
+        SQr_MAX = 0.5 * Gcr_v + (Gtr_v + Qh) * (L-e_min)/L   # Unfavorable axis
+        Qr_MAX = SQr_MAX / 2                                 # Unfavorable axis
+        SQr_MIN = 0.5 * Gcr_v + (Gtr_v + Qh) * e_min/L       # Favorable axis
+        Qr_MIN = SQr_MIN / 2                                 # Favorable axis
+
+        return QR(Gcr_v, Gtr_v, Qh, SQr_MIN, Qr_MIN, SQr_min, Qr_min, SQr_MAX, Qr_MAX, SQr_max, Qr_max)
+
+    def calc_Ht(self):
+        QR1, QR4 = self.data["QR1"], self.data["QR4"]
+        HT1 = self._calc_Ht(QR1.SQr_MAX, QR1.SQr_MIN, QR1.Qr_min)
+        HT4 = self._calc_Ht(QR4.SQr_MAX, QR4.SQr_MIN, QR4.Qr_min)
+        self.data.update({
+            "HT1": HT1,
+            "HT4": HT4,
+        })
+
+    def _calc_Ht(self, SQr_MAX, SQr_MIN, Qr_min):
+        """
+        Η συνάρτηση αυτή υπολογίζει τις οριζόντιες (εγκάρσιες και κατά μήκος)
+        δυνάμεις που ασκούνται στη δοκό κύλισης εξαιτίας της επιτάχυνσης της
+        γερανογέφυρας.
+
+        L : το μήκος της γερανογέφυρας.
+        a : η απόσταση μεταξύ των τροχών.
+        Qmax : η λίστα με τα φορτία που αντιστοιχουν στην περισσότερο φορτισμένη
+               δοκό κυλισης.
+        Qmin : η λίστα με τα φορτία που αντιστοιχουν στη λιγότερο φορτισμένη
+               δοκό κυλισης.
+        mf : ο συντελεστής τριβής μ.
+        mw : το πλήθος μεμονωμένων κινητήριων τροχών.
+        v5 : ο δυναμικός συντελεστής φ5.
+        nr : ο αριθμός δοκών κύλισης.
+
+        SQr_max : το συνολικό φορτίο που αντιστοιχεί στην περισσότερο φορτισμένη
+                  δοκό κυλισης.
+        SQr_min : το συνολικό φορτίο που αντιστοιχεί στη λιγότερο φορτισμένη
+                  δοκό κυλισης.
+        Qr_min : το φορτίο που αντιστοιχει΄στον ένα τροχό της λιγότερο
+                 φορτισμένης δοκού κύλισης.
+
+        Κ : η κινητήρια δύναμη.
+        """
+        # local names
+        data = self.data
+        L, a, mf, mw, v5, nr = data["L"], data["a"], data["mf"], data["mw"], data["v5"], data["nr"],
+
+        # calculations
+        K = mf * mw * Qr_min
+        HL = HL_1 = HL_2 = v5 * K / (nr)
+        ksi1 = SQr_MAX / (SQr_MAX + SQr_MIN)
+        ksi2 = 1 - ksi1
+        Ls = (ksi1 - 0.5) * L
+        M = K * Ls
+        HT_1 = v5 * ksi2 * M / a
+        HT_2 = v5 * ksi1 * M / a
+
+        return HT(K, HL, ksi1, ksi2, Ls, M, HT_1, HT_2)
+
+    def calc_Hs(self):
+        """
+        Αυτή η μέθοδος κάνει τον υπολογισμό των οριζόντιων φορτίων λόγω της
+        παράγωγης κίνησης της γερανογέφυρας.
+        """
+
+        # local namespace
+        d = self.data
+        RT, L, nr, e1, e2, m, a_rad, QR5 = \
+            d["RT"], d["L"], d["nr"], d["e1"], d["e2"], d["m"], d["a_rad"], d["QR5"]
+        SQr_max, SQr_min = QR5.SQr_max, QR5.SQr_min
+
+        SQr = SQr_max + SQr_min
+
+        ksi1 = SQr_max / SQr
+        ksi2 = 1 - ksi1
+        f = 0.3*(1-exp(-250*a_rad))
+
+        if RT.endswith('FF'):
+            h = (m * ksi1 * ksi2 * L**2 + e1**2 + e2**2)/(e1 + e2)
+        elif RT.endswith('FM'):
+            h = (m * ksi1 * L**2 + e1**2 + e2**2)/(e1 + e2)
+
+        if RT == ("IFF"):
+            l_s = 1 - (e1 + e2) / (nr * h)
+            l_s11L = 0
+            l_s12L = 0
+            l_s21L = 0
+            l_s22L = 0
+            l_s11T = (ksi2 / nr) * (1 - e1 / h)
+            l_s12T = (ksi2 / nr) * (1 - e2 / h)
+            l_s21T = (ksi1 / nr) * (1 - e1 / h)
+            l_s22T = (ksi1 / nr) * (1 - e2 / h)
+        elif RT == ("CFF"):
+            l_s = 1 - (e1 + e2) / (nr * h)
+            l_s11L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s12L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s21L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s22L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s11T = (ksi2 / nr) * (1 - e1 / h)
+            l_s12T = (ksi2 / nr) * (1 - e2 / h)
+            l_s21T = (ksi1 / nr) * (1 - e1 / h)
+            l_s22T = (ksi1 / nr) * (1 - e2 / h)
+        elif RT == ("IFM"):
+            l_s = ksi2 * (1 - (e1 + e2) / (nr * h))
+            l_s11L = 0
+            l_s12L = 0
+            l_s21L = 0
+            l_s22L = 0
+            l_s11T = (ksi2 / nr) * (1 - e1 / h)
+            l_s12T = (ksi2 / nr) * (1 - e2 / h)
+            l_s21T = 0
+            l_s22T = 0
+        elif RT == ("CFM"):
+            l_s = ksi2 * (1 - (e1 + e2) / (nr * h))
+            l_s11L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s12L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s21L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s22L = (ksi1 * ksi2 * L) / (nr * h)
+            l_s11T = (ksi2 / nr) * (1 - e1 / h)
+            l_s12T = (ksi2 / nr) * (1 - e2 / h)
+            l_s21T = 0
+            l_s22T = 0
+
+        S = f * l_s * SQr
+        H_s11L = f * l_s11L * SQr
+        H_s12L = f * l_s12L * SQr
+        H_s21L = f * l_s21L * SQr
+        H_s22L = f * l_s22L * SQr
+        H_s11T = f * l_s11T * SQr
+        H_s12T = f * l_s12T * SQr
+        H_s21T = f * l_s21T * SQr
+        H_s22T = f * l_s22T * SQr
+
+        H_s1T = H_s11T - S
+        H_s2T = H_s21T
+
+        # update self.data
+        local_vars = locals()
+        useful_vars = ("SQr", "ksi1", "ksi2", "f", "h", "l_s", "l_s11L", "l_s12L", "l_s21L",
+                       "l_s22L", "l_s11T", "l_s12T", "l_s21T", "l_s22T", "H_s11L", "H_s12L",
+                       "H_s21L", "H_s22L", "H_s11T", "H_s12T", "H_s21T", "H_s22T", "H_s1T", "H_s2T")
+        self.data.update({name: local_vars[name] for name in useful_vars})
+
+    def calc_fatigue(self):
+
+        """
+        Η συνάρτηση αυτή υπολογίζει τα φορτία κόπωσης της γερανογέφυρας για
+        ορθές και διατμητικές τάσεις.
+        """
+        d = self.data
+        SQmax_i = 0.5 * d["Gcr"] + (d["Gtr"] + d["Qr_nom"]) * (d["L"] - d["e_min"]) / d["L"]  # Δυσμενής άξονας
+        Qmax_i  = SQmax_i / 2
+        Qes = d["vfat"] * d["lfat_s"] * Qmax_i
+        Qet = d["vfat"] * d["lfat_t"] * Qmax_i
+
+        self.data.update({
+            "SQmax_i": SQmax_i,
+            "Qmax_i": Qmax_i,
+            "Qes": Qes,
+            "Qet": Qet,
+        })

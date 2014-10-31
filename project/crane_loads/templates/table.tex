@@ -1,42 +1,52 @@
 \section{Συγκεντρωτικοί πίνακες φορτίων}
-Στους πίνακες που ακολουθούν παρουσιάζονται συγκεντρωτικά τα φορτία της γερανογέφυρας τόσο στην Οριακή Κατάσταση Λειτουργικότητας (ΟΚΛ) όσο και στην Οριακή Κατάσταση Αστοχίας (ΟΚΑ)
 
-\begin{sidewaystable}[htpb] 
+Στους πίνακες που ακολουθούν παρουσιάζονται συγκεντρωτικά τα φορτία της γερανογέφυρας τόσο στην
+Οριακή Κατάσταση Λειτουργικότητας (ΟΚΛ) όσο και στην Οριακή Κατάσταση Αστοχίας (ΟΚΑ)
+
+\begin{sidewaystable}[htpb]
 \begin{center}
 \begin{tabular}{ccrrrrrr}
 \toprule
-\multicolumn{3}{c}{Συνδυασμός φόρτισης}  															& \makebox[1cm][c]{1ος}	& \makebox[1cm][c]{2ος}	& \makebox[1cm][c]{3ος}	& \makebox[1cm][c]{4ος}	& \makebox[1cm][c]{5ος} \\ 	\midrule
-\multirow{4}{*}{Κατακόρυφα Φορτία}	& \multirow{2}{*}{Ίδιο βάρος}					& $Q_{r,min}$	& $Qmax_1--$			& $Qmax_2--$			& $Qmax_3--$			& $Qmax_4--$			& $Qmax_5--$ \\ 
- 									& 												& $Q_{r,(min)}$ & $Qmin_1--$			& $Qmin_2--$			& $Qmin_3--$			& $Qmin_4--$			& $Qmin_5--$ \\ \cmidrule(l){2-8}
-									& Ίδιο βάρος +									& $Q_{r,max}$	& $QMAX_1--$			& $QMAX_2--$			& \makebox[1cm][c]{-}	& $QMAX_4--$			& $QMAX_5--$ \\ 
- 									& Ωφέλιμο βάρος									& $Q_{r,(max)}$ & $QMIN_1--$			& $QMIN_2--$			& \makebox[1cm][c]{-}	& $QMIN_4--$			& $QMIN_5--$ \\ \midrule
-\multirow{6}{*}{Οριζόντια Φορτία}	& \multirow{4}{*}{Επιτάχυνση}					& $H_{L1}$		& $HL_1--$				& $HL_1--$				& $HL_4--$				& $HL_4--$				& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{L2}$		& $HL_1--$				& $HL_1--$				& $HL_4--$				& $HL_4--$				& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{T1}$		& $HT1_1--$ 			& $HT1_1--$ 			& $HT1_4--$ 			& $HT1_4--$ 			& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{T2}$		& $HT2_1--$ 			& $HT2_1--$ 			& $HT2_4--$ 			& $HT2_4--$ 			& \makebox[1cm][c]{-}	 \\ \cmidrule(l){2-8}
- 									& \multirow{2}{*}{Παράγωγη κίνηση}				& $H_{S,1T}$	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& $HS1_5--$ \\ 
- 									& 												& $H_{S,2T}$	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& $HS2_5--$ \\ \bottomrule
+\multicolumn{3}{c}{Συνδυασμός φόρτισης}                                                     & \makebox[1cm][c]{1ος}  & \makebox[1cm][c]{2ος}  & \makebox[1cm][c]{3ος}  & \makebox[1cm][c]{4ος}  & \makebox[1cm][c]{5ος} \\   \midrule
+%
+\multirow{4}{*}{Κατακόρυφα Φορτία}  & \multirow{2}{*}{Ίδιο βάρος}       & $Q_{r,min}$       & ${{ QR1.Qr_max }}$      & ${{ QR2.Qr_max }}$      & ${{ QR3.Qr_max }}$    & ${{ QR4.Qr_max }}$    & ${{ QR5.Qr_max }}$ \\
+                                    &                                   & $Q_{r,(min)}$     & ${{ QR1.Qr_min }}$      & ${{ QR2.Qr_min }}$      & ${{ QR3.Qr_min }}$    & ${{ QR4.Qr_min }}$    & ${{ QR5.Qr_min }}$ \\ \cmidrule(l){2-8}
+                                    &  Ίδιο βάρος +                     & $Q_{r,max}$       & ${{ QR1.Qr_MAX }}$      & ${{ QR2.Qr_MAX }}$      & \makebox[1cm][c]{-}   & ${{ QR4.Qr_MAX }}$    & ${{ QR5.Qr_MAX }}$ \\
+                                    & Ωφέλιμο βάρος                     & $Q_{r,(max)}$     & ${{ QR1.Qr_MIN }}$      & ${{ QR2.Qr_MIN }}$      & \makebox[1cm][c]{-}   & ${{ QR4.Qr_MIN }}$    & ${{ QR5.Qr_MIN }}$ \\ \midrule
+%
+\multirow{6}{*}{Οριζόντια Φορτία}   & \multirow{4}{*}{Επιτάχυνση}       & $H_{L1}$    & ${{ HT1.HL }}$      & ${{ HT1.HL }}$    & ${{ HT4.HL }}$    & ${{ HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{L2}$    & ${{ HT1.HL }}$      & ${{ HT1.HL }}$    & ${{ HT4.HL }}$    & ${{ HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{T1}$    & ${{ HT1.HT_1 }}$    & ${{ HT1.HT_1 }}$  & ${{ HT4.HT_1 }}$  & ${{ HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{T2}$    & ${{ HT1.HT_2 }}$    & ${{ HT1.HT_2 }}$  & ${{ HT4.HT_2 }}$  & ${{ HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\ \cmidrule(l){2-8}
+%
+                                    & \multirow{2}{*}{Παράγωγη κίνηση}  & $H_{S,1T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ HS1_5 }}$ \\
+                                    &                                   & $H_{S,2T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ HS2_5 }}$ \\ \bottomrule
+%
 \end{tabular}
 \end{center}
 \caption{Φορτία γερανογέφυρας, στην Οριακή Κατάσταση Λειτουργικότητα ($γ = 1.00$)}
 \end{sidewaystable}
 
-\begin{sidewaystable}[htpb] 
+\begin{sidewaystable}[htpb]
 \begin{center}
 \begin{tabular}{ccrrrrrr}
 \toprule
-\multicolumn{3}{c}{Συνδυασμός φόρτισης}  															& \makebox[1cm][c]{1ος}	& \makebox[1cm][c]{2ος}	& \makebox[1cm][c]{3ος}	& \makebox[1cm][c]{4ος}	& \makebox[1cm][c]{5ος} \\ 	\midrule
-\multirow{4}{*}{Κατακόρυφα Φορτία}	& \multirow{2}{*}{Ίδιο βάρος}					& $Q_{r,min}$	& $Qmax_1--$			& $Qmax_2--$			& $Qmax_3--$			& $Qmax_4--$			& $Qmax_5--$ \\ 
- 									& 												& $Q_{r,(min)}$ & $Qmin_1--$			& $Qmin_2--$			& $Qmin_3--$			& $Qmin_4--$			& $Qmin_5--$ \\ \cmidrule(l){2-8}
-									& Ίδιο βάρος +									& $Q_{r,max}$	& $QMAX_1--$			& $QMAX_2--$			& \makebox[1cm][c]{-}	& $QMAX_4--$			& $QMAX_5--$ \\ 
- 									& Ωφέλιμο βάρος									& $Q_{r,(max)}$ & $QMIN_1--$			& $QMIN_2--$			& \makebox[1cm][c]{-}	& $QMIN_4--$			& $QMIN_5--$ \\ \midrule
-\multirow{6}{*}{Οριζόντια Φορτία}	& \multirow{4}{*}{Επιτάχυνση}					& $H_{L1}$		& $HL_1--$				& $HL_1--$				& $HL_4--$				& $HL_4--$				& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{L2}$		& $HL_1--$				& $HL_1--$				& $HL_4--$				& $HL_4--$				& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{T1}$		& $HT1_1--$ 			& $HT1_1--$ 			& $HT1_4--$ 			& $HT1_4--$ 			& \makebox[1cm][c]{-}	 \\ 
- 									& 												& $H_{T1}$		& $HT2_1--$ 			& $HT2_1--$ 			& $HT2_4--$ 			& $HT2_4--$ 			& \makebox[1cm][c]{-}	 \\ \cmidrule(l){2-8}
- 									& \multirow{2}{*}{Παράγωγη κίνηση}				& $H_{S,1T}$	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& $HS1_5--$ \\ 
- 									& 												& $H_{S,2T}$	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& \makebox[1cm][c]{-}	& $HS2_5--$ \\ \bottomrule
+\multicolumn{3}{c}{Συνδυασμός φόρτισης}                                                     & \makebox[1cm][c]{1ος}  & \makebox[1cm][c]{2ος}  & \makebox[1cm][c]{3ος}  & \makebox[1cm][c]{4ος}  & \makebox[1cm][c]{5ος} \\   \midrule
+%
+\multirow{4}{*}{Κατακόρυφα Φορτία}  & \multirow{2}{*}{Ίδιο βάρος}       & $Q_{r,min}$       & ${{ g * QR1.Qr_max }}$    & ${{ g * QR2.Qr_max }}$    & ${{ g * QR3.Qr_max }}$    & ${{ g * QR4.Qr_max }}$    & ${{ g * QR5.Qr_max }}$ \\
+                                    &                                   & $Q_{r,(min)}$     & ${{ g * QR1.Qr_min }}$    & ${{ g * QR2.Qr_min }}$    & ${{ g * QR3.Qr_min }}$    & ${{ g * QR4.Qr_min }}$    & ${{ g * QR5.Qr_min }}$ \\ \cmidrule(l){2-8}
+                                    &  Ίδιο βάρος +                     & $Q_{r,max}$       & ${{ g * QR1.Qr_MAX }}$    & ${{ g * QR2.Qr_MAX }}$    & \makebox[1cm][c]{-}       & ${{ g * QR4.Qr_MAX }}$    & ${{ g * QR5.Qr_MAX }}$ \\
+                                    & Ωφέλιμο βάρος                     & $Q_{r,(max)}$     & ${{ g * QR1.Qr_MIN }}$    & ${{ g * QR2.Qr_MIN }}$    & \makebox[1cm][c]{-}       & ${{ g * QR4.Qr_MIN }}$    & ${{ g * QR5.Qr_MIN }}$ \\ \midrule
+%
+\multirow{6}{*}{Οριζόντια Φορτία}   & \multirow{4}{*}{Επιτάχυνση}       & $H_{L1}$    & ${{ g * HT1.HL }}$      & ${{ g * HT1.HL }}$    & ${{ g * HT4.HL }}$    & ${{ g * HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{L2}$    & ${{ g * HT1.HL }}$      & ${{ g * HT1.HL }}$    & ${{ g * HT4.HL }}$    & ${{ g * HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{T1}$    & ${{ g * HT1.HT_1 }}$    & ${{ g * HT1.HT_1 }}$  & ${{ g * HT4.HT_1 }}$  & ${{ g * HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\
+                                                                        & $H_{T2}$    & ${{ g * HT1.HT_2 }}$    & ${{ g * HT1.HT_2 }}$  & ${{ g * HT4.HT_2 }}$  & ${{ g * HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\ \cmidrule(l){2-8}
+%
+                                    & \multirow{2}{*}{Παράγωγη κίνηση}  & $H_{S,1T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ H_s1T }}$ \\
+                                    &                                   & $H_{S,2T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ H_s2T }}$ \\ \bottomrule
+%
 \end{tabular}
 \end{center}
-\caption{Φορτία γερανογέφυρας, στην Οριακή Κατάσταση Αστοχίας ($γ = 1.35$)}
+\caption{Φορτία γερανογέφυρας, στην Οριακή Κατάσταση Λειτουργικότητα ($γ = 1.00$)}
 \end{sidewaystable}

@@ -13,15 +13,19 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
 
+# Standard Library
 import os
 import logging
 import logging.config
 import argparse
 from pprint import pprint
 
-import crane_loads
-from crane_loads import Config, OptionsBorg
+# 3rd party libraries
+from jinja2 import Environment, PackageLoader
 
+# Our libraries
+import crane_loads
+from crane_loads import Config, OptionsBorg, CraneLoads
 
 
 class Options(OptionsBorg):
@@ -56,24 +60,6 @@ class Options(OptionsBorg):
         return options
 
 
-def load_input(module_name):
-    logger = logging.getLogger()
-    logger.info("Loading input from: %r", os.path.abspath(module_name))
-
-    # Get the module object
-    input_module = __import__(os.path.splitext(module_name)[0])
-
-    # Get the variables from the input file excluding the imports
-    input_data = {}
-    imports = set(["division", "print_function", "unicode_literals", "absolute_import", "tables"])
-    for attribute in dir(input_module):
-        if attribute.startswith("_") or attribute in imports:
-            continue
-        else:
-            input_data[attribute] = getattr(input_module, attribute)
-    logger.info("Succesfully loaded data.")
-    return input_data
-
 def main():
     # parse CLI options and read configuration file
     options = Options()
@@ -85,8 +71,17 @@ def main():
     logging.config.dictConfig(config["logging"])
     logger = logging.getLogger()
 
-    # get the input
-    input_data = load_input(options.input_file)
+    # initialize instance
+    loads = CraneLoads()
+    loads.load_input_from_module(options.input_file)
+    loads.calc()
+    tex = loads._create_tex()
+
+    with open("/tmp/foo.tex", "w") as fd:
+        fd.write(tex)
+
+    import os
+    os.system("xelatex /tmp/foo.tex; mv ./foo.pdf /tmp/; rmtex")
 
 
 

@@ -1,48 +1,51 @@
 
 \subsection{Οριζόντια φορτία λόγω παράγωγης κίνησης της γερανογέφυρας (συνδυασμός 5)}
-Κατά την κίνηση της η γερανογέφυρα ακολουθεί μια λοξή πορεία ως προς τις τροχιές της. Το γεγονός αυτό έχει ως συνέπεια τη δημιουργία των εξής δυνάμεων:
-\begin{itemize} 
-\item της οδηγούσας δύναμης $S$ που ασκείται στη θέση των μέσων καθοδήγησης, και
-\item των εγκάρσιων ως προς τις τροχιές δυνάμεων που ασκούνται σε κάθε τροχό.
+
+Κατά την κίνηση της η γερανογέφυρα ακολουθεί μια λοξή πορεία ως προς τις τροχιές της. Το γεγονός
+αυτό έχει ως συνέπεια τη δημιουργία των εξής δυνάμεων:
+
+\begin{itemize}
+    \item της οδηγούσας δύναμης $S$ που ασκείται στη θέση των μέσων καθοδήγησης, και
+    \item των εγκάρσιων ως προς τις τροχιές δυνάμεων που ασκούνται σε κάθε τροχό.
 \end{itemize}
 
 \begin{align*}
-\sum{Q_r} &= \displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}} = SQr-- \text{ KN} \\ 
-ξ_1    	  &= \dfrac{\displaystyle\sum{Q_{r,max}}}{\displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}}} = ksi1-- \text{ KN} \\ 
-ξ_2       &= 1 - ξ1 = ksi2-- \text{ KN} \\ 
-α    	  &= a_rad-- \text{ rad} \\ 
-f         &= 0.3 \times \left(1 - e^{-250 \times α}\right) = f--
+    \sum{Q_r}   &= \displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}} = {{ SQr }} \text{ KN} \\
+    ξ_1         &= \dfrac{\displaystyle\sum{Q_{r,max}}}{\displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}}} = {{ ksi1 }} \text{ KN} \\
+    ξ_2         &= 1 - ξ1 = {{ ksi2 }} \text{ KN} \\
+    α           &= {{ a_rad }} \text{ rad} \\
+    f           &= 0.3 \cdot \left(1 - e^{-250 \cdot α}\right) = {{ f }}
 \end{align*}
 
 Αφού το σύστημα κύλισης της γερανογέφυρας είναι IFF έχουμε:
 \begin{align*}
-h          &= \dfrac{m \times ξ_1 \times ξ_2 \times L^2 + \sum{e_i^2}}{\sum{e_i}} = h-- \\ 
-λ_s        &= 1 - \dfrac{\sum{e_i}}{n \times h} =  l_s-- \\ 
-λ_{S,11,L} &= l_s11L-- \\ 
-λ_{S,12,L} &= l_s12L-- \\ 
-λ_{S,21,L} &= l_s21L-- \\ 
-λ_{S,22,L} &= l_s22L-- \\ 
-λ_{S,11,T} &= \dfrac{ξ_2}{n} \times \left(1 - \dfrac{e_1}{h}\right) = l_s11T-- \\ 
-λ_{S,12,T} &= \dfrac{ξ_2}{n} \times \left(1 - \dfrac{e_2}{h}\right) = l_s12T-- \\ 
-λ_{S,21,T} &= \dfrac{ξ_1}{n} \times \left(1 - \dfrac{e_1}{h}\right) = l_s21T-- \\ 
-λ_{S,22,T} &= \dfrac{ξ_1}{n} \times \left(1 - \dfrac{e_2}{h}\right) = l_s22T--
+    h          &= \dfrac{m \cdot ξ_1 \cdot ξ_2 \cdot L^2 + \sum{e_i^2}}{\sum{e_i}} = {{ h }} \\
+    λ_s        &= 1 - \dfrac{\sum{e_i}}{n \cdot h} =  {{ l_s }} \\
+    λ_{S,11,L} &= {{ l_s11L }} \\
+    λ_{S,12,L} &= {{ l_s12L }} \\
+    λ_{S,21,L} &= {{ l_s21L }} \\
+    λ_{S,22,L} &= {{ l_s22L }} \\
+    λ_{S,11,T} &= \dfrac{ξ_2}{n} \cdot \left(1 - \dfrac{e_1}{h}\right) = {{ l_s11T }} \\
+    λ_{S,12,T} &= \dfrac{ξ_2}{n} \cdot \left(1 - \dfrac{e_2}{h}\right) = {{ l_s12T }} \\
+    λ_{S,21,T} &= \dfrac{ξ_1}{n} \cdot \left(1 - \dfrac{e_1}{h}\right) = {{ l_s21T }} \\
+    λ_{S,22,T} &= \dfrac{ξ_1}{n} \cdot \left(1 - \dfrac{e_2}{h}\right) = {{ l_s22T }}
 \end{align*}
 
 Άρα οι ασκούμενες δυνάμεις είναι:
 \begin{align*}
-S                &= f \times λ_s \times \sum{Q_r} = S-- \text{ KN} \\ 
-H_{S,11,L}       &= f \times λ_{s,11,L} \times \sum{Q_r} = H_s11L-- \text{ KN} \\ 
-H_{S,12,L}       &= f \times λ_{s,12,L} \times \sum{Q_r} = H_s12L-- \text{ KN} \\ 
-H_{S,21,L}       &= f \times λ_{s,21,L} \times \sum{Q_r} = H_s21L-- \text{ KN} \\ 
-H_{S,22,L}       &= f \times λ_{s,22,L} \times \sum{Q_r} = H_s22L-- \text{ KN} \\ 
-H_{S,11,T}       &= f \times λ_{s,11,T} \times \sum{Q_r} = H_s11T-- \text{ KN} \\ 
-H_{S,12,T}       &= f \times λ_{s,12,T} \times \sum{Q_r} = H_s12T-- \text{ KN} \\ 
-H_{S,21,T}       &= f \times λ_{s,21,T} \times \sum{Q_r} = H_s21T-- \text{ KN} \\ 
-H_{S,22,T}       &= f \times λ_{s,22,T} \times \sum{Q_r} = H_s22T-- \text{ KN} 
+    S                &= f \cdot λ_s \cdot \sum{Q_r} = {{ S }} \text{ KN} \\
+    H_{S,11,L}       &= f \cdot λ_{s,11,L} \cdot \sum{Q_r} = {{ H_s11L }} \text{ KN} \\
+    H_{S,12,L}       &= f \cdot λ_{s,12,L} \cdot \sum{Q_r} = {{ H_s12L }} \text{ KN} \\
+    H_{S,21,L}       &= f \cdot λ_{s,21,L} \cdot \sum{Q_r} = {{ H_s21L }} \text{ KN} \\
+    H_{S,22,L}       &= f \cdot λ_{s,22,L} \cdot \sum{Q_r} = {{ H_s22L }} \text{ KN} \\
+    H_{S,11,T}       &= f \cdot λ_{s,11,T} \cdot \sum{Q_r} = {{ H_s11T }} \text{ KN} \\
+    H_{S,12,T}       &= f \cdot λ_{s,12,T} \cdot \sum{Q_r} = {{ H_s12T }} \text{ KN} \\
+    H_{S,21,T}       &= f \cdot λ_{s,21,T} \cdot \sum{Q_r} = {{ H_s21T }} \text{ KN} \\
+    H_{S,22,T}       &= f \cdot λ_{s,22,T} \cdot \sum{Q_r} = {{ H_s22T }} \text{ KN}
 \end{align*}
 
 Τελικά στη θέση του προπορευόμενου ζεύγους τροχών έχουμε:
 \begin{align*}
-H_{S,1T} &= H_{S,11,T} - S = H_s1T-- \text{ KN} \\
-H_{S,2T} &= H_{S,21,T} = H_s21T-- \text{ KN}
+    H_{S,1T} &= H_{S,11,T} - S = {{ H_s1T }} \text{ KN} \\
+    H_{S,2T} &= H_{S,21,T} = {{ H_s21T }} \text{ KN}
 \end{align*}

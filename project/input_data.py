@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# author: Panagiotis Mavrogiorgos
+# email : gmail, pmav99
 
 """
 This file can act as input data for the calculation of the crane loads.
@@ -7,17 +9,13 @@ This file can act as input data for the calculation of the crane loads.
 Some of the data are derived from the other values. If you want to give
 them values yourself, just comment out the lines that calculate them
 and type the values you need.
-
-author: Panagiotis Mavrogiorgos
-email : gmail, pmav99
 """
 
 from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import absolute_import
-
 from crane_loads import tables
+
+# Load factors
+g = 1.35
 
 ### Geometry
 # L     :
@@ -25,9 +23,9 @@ from crane_loads import tables
 # a     :
 # br    :
 # e     :
-L       = 15
-e_min   = 0.78
-a       = 1.6
+L       = 18
+e_min   = 1.510
+a       = 4
 br      = 0.05
 e       = br / 4
 
@@ -36,10 +34,10 @@ e       = br / 4
 # G,tr      :
 # T,tot     :
 # Qr,nom    :
-Gcr     = 27.27
-Gtr     = 2.8
+Gcr     = 89.28
+Gtr     = 11.84
 Gtot    = Gcr + Gtr
-Qr_nom  = 32
+Qr_nom  = 80
 
 ### General
 # HC : Hoisting class
@@ -47,11 +45,12 @@ Qr_nom  = 32
 # RT : rolling type
 # m  :
 HC = "HC2"
-FC = "S2"
+FC = "S3"
 RT = "IFF"
 m = 0
+a_rad = 0.0015
 
-vh = 20 / 60
+vh = 5 / 60
 mf = 0.2
 mw = 2
 nr = 2
@@ -69,7 +68,6 @@ v4 = 1
 v5 = 1.5
 v6 = 1
 vfat = max((1 + v1) / 2, (1 + v2) / 2)
-a_rad = 0.0015
 
-ls = tables.LS[FC]
-lt = tables.LT[FC]
+lfat_s = tables.LS[FC]
+lfat_t = tables.LT[FC]
