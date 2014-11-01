@@ -6,14 +6,14 @@
 είναι:
 
 \begin{align*}
-    \sum{Q_{max,i}} &= \dfrac{G_{cr}}{2} + \dfrac{(G_{tr} + Q_h) \cdot (L - a)}{L} = {{ SQmax_i }} \text{ KN} \\
-    Q_{max,i}       &= \dfrac{\displaystyle\sum{Q_e}}{2}                           = {{ Qmax_i }}  \text{ KN}
+    \sum{Q_{max,i}} &= \dfrac{G_{cr}}{2} + \dfrac{(G_{tr} + Q_h) \cdot (L - a)}{L} = {{ "%.3f" % SQmax_i }} \text{ KN} \\
+    Q_{max,i}       &= \dfrac{\displaystyle\sum{Q_e}}{2}                           = {{ "%.3f" % Qmax_i }}  \text{ KN}
 \end{align*}
 
 Ο δυναμικός συντελεστής της κόπωσης υπολογίζεται ως ακολούθως:
 
 \begin{equation*}
-    φ_{fat} = \max \left( \dfrac{1+φ_1}{2}\ ; \ \dfrac{1+φ_2}{2} \right) {{ vfat }}
+    φ_{fat} = \max \left( \dfrac{1+φ_1}{2}\ ; \ \dfrac{1+φ_2}{2} \right) {{ "%.3f" % vfat }}
 \end{equation*}
 
 Οι συντελεστές $λ_σ$ και $λ_τ$ εξαρτώνται από την κατηγορία κόπωσης της γερανογέφυρας. Έτσι σύμφωνα
@@ -21,13 +21,13 @@
 ότι:
 
 \begin{align*}
-    λ_σ &= {{ lfat_s }}\\
-    λ_τ &= {{ lfat_t }}
+    λ_σ &= {{ "%.3f" % lfat_s }}\\
+    λ_τ &= {{ "%.3f" % lfat_t }}
 \end{align*}
 
 Τελικά το φορτίο τροχού για σχεδιασμό έναντι κόπωσης είναι:
 
 \begin{align*}
-    Q_{e,σ} &= φ_{fat} \cdot λ_σ \cdot Q_{max,i} = {{ Qes }}\\
-    Q_{e,τ} &= φ_{fat} \cdot λ_τ \cdot Q_{max,i} = {{ Qet }}
+    Q_{e,σ} &= φ_{fat} \cdot λ_σ \cdot Q_{max,i} = {{ "%.3f" % Qes }}\\
+    Q_{e,τ} &= φ_{fat} \cdot λ_τ \cdot Q_{max,i} = {{ "%.3f" % Qet }}
 \end{align*}

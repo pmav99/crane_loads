@@ -158,16 +158,16 @@ class CraneLoads(object):
         Gcr_v = Gcr * v_sw
         Gtr_v = Gtr * v_sw
         # Unloaded crane
-        SQr_max = 0.5 * Gcr_v + Gtr_v * (L-e_min)/L     # Unfavorable axis
+        SQr_max = 0.5 * Gcr_v + Gtr_v * (L - e_min) / L # Unfavorable axis
         Qr_max = SQr_max / 2                            # Unfavorable axis
-        SQr_min = 0.5 * Gcr_v + Gtr_v * e_min/L         # Favorable axis
+        SQr_min = 0.5 * Gcr_v + Gtr_v * e_min / L       # Favorable axis
         Qr_min = SQr_min / 2                            # Favorable axis
         # Loaded crane
         Qh = v_hl * Qnom
-        SQr_MAX = 0.5 * Gcr_v + (Gtr_v + Qh) * (L-e_min)/L   # Unfavorable axis
-        Qr_MAX = SQr_MAX / 2                                 # Unfavorable axis
-        SQr_MIN = 0.5 * Gcr_v + (Gtr_v + Qh) * e_min/L       # Favorable axis
-        Qr_MIN = SQr_MIN / 2                                 # Favorable axis
+        SQr_MAX = 0.5 * Gcr_v + (Gtr_v + Qh) * (L - e_min) / L  # Unfavorable axis
+        Qr_MAX = SQr_MAX / 2                                    # Unfavorable axis
+        SQr_MIN = 0.5 * Gcr_v + (Gtr_v + Qh) * e_min / L        # Favorable axis
+        Qr_MIN = SQr_MIN / 2                                    # Favorable axis
 
         return QR(Gcr_v, Gtr_v, Qh, SQr_MIN, Qr_MIN, SQr_min, Qr_min, SQr_MAX, Qr_MAX, SQr_max, Qr_max)
 
@@ -232,13 +232,14 @@ class CraneLoads(object):
         d = self.data
         RT, L, nr, e1, e2, m, a_rad, QR5 = \
             d["RT"], d["L"], d["nr"], d["e1"], d["e2"], d["m"], d["a_rad"], d["QR5"]
-        SQr_max, SQr_min = QR5.SQr_max, QR5.SQr_min
 
-        SQr = SQr_max + SQr_min
+        SQr = QR5.SQr_MAX + QR5.SQr_MIN
 
-        ksi1 = SQr_max / SQr
+        ksi1 = QR5.SQr_MAX / SQr
         ksi2 = 1 - ksi1
-        f = 0.3*(1-exp(-250*a_rad))
+        f = 0.3 * (1 - exp(-250 * a_rad))
+
+        self.logger.info(f)
 
         if RT.endswith('FF'):
             h = (m * ksi1 * ksi2 * L**2 + e1**2 + e2**2)/(e1 + e2)
@@ -301,7 +302,7 @@ class CraneLoads(object):
 
         # update self.data
         local_vars = locals()
-        useful_vars = ("SQr", "ksi1", "ksi2", "f", "h", "l_s", "l_s11L", "l_s12L", "l_s21L",
+        useful_vars = ("SQr", "ksi1", "ksi2", "f", "h", "l_s", "l_s11L", "l_s12L", "l_s21L", "S",
                        "l_s22L", "l_s11T", "l_s12T", "l_s21T", "l_s22T", "H_s11L", "H_s12L",
                        "H_s21L", "H_s22L", "H_s11T", "H_s12T", "H_s21T", "H_s22T", "H_s1T", "H_s2T")
         self.data.update({name: local_vars[name] for name in useful_vars})

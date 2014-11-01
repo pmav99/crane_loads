@@ -9,11 +9,11 @@
 \end{itemize}
 
 \begin{align*}
-    \sum{Q_r}   &= \displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}} = {{ "%.3f" % SQr }} \text{ KN} \\
-    \xi_1       &= \dfrac{\displaystyle\sum{Q_{r,max}}}{\displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}}} = {{ "%.3f" % ksi1 }} \text{ KN} \\
-    \xi_2       &= 1 - \xi1 = {{ "%.3f" % ksi2 }} \text{ KN} \\
-    \alpha      &= {{ "%.4f" % a_rad }} \text{ rad} \\
-    f           &= 0.3 \cdot \left(1 - e^{-250 \cdot \alpha}\right) = {{ "%.3f" % f }}
+    \sum{Q_r} &= \displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}} = {{ "%.3f" % SQr }} \text{ KN} \\
+    \xi_1     &= \dfrac{\displaystyle\sum{Q_{r,max}}}{\displaystyle\sum{Q_{r,max}} + \displaystyle\sum{Q_{r,(max)}}} = {{ "%.3f" % ksi1 }} \\
+    \xi_2     &= 1 - \xi1 = {{ "%.3f" % ksi2 }}\\
+    \alpha    &= {{ "%.4f" % a_rad }} \text{ rad} \\
+    f         &= 0.3 \cdot \left(1 - e^{-250 \cdot \alpha}\right) = {{ "%.3f" % f }}
 \end{align*}
 
 Αφού το σύστημα κύλισης της γερανογέφυρας είναι CFF έχουμε:
@@ -32,7 +32,6 @@
 \end{align*}
 
 Άρα οι ασκούμενες δυνάμεις είναι:
-
 \begin{align*}
     S                &= f \cdot \lambda_s \cdot \sum{Q_r} = {{ "%.3f" % S }} \text{ KN} \\
     H_{S,11,L}       &= f \cdot \lambda_{s,11,L} \cdot \sum{Q_r} = {{ "%.3f" % H_s11L }} \text{ KN} \\
@@ -46,7 +45,6 @@
 \end{align*}
 
 Τελικά στη θέση του προπορευόμενου ζεύγους τροχών έχουμε:
-
 \begin{align*}
     H_{S,1T} &= H_{S,11,T} - S = {{ "%.3f" % H_s1T }} \text{ KN} \\
     H_{S,2T} &= H_{S,21,T} = {{ "%.3f" % H_s21T }} \text{ KN}
