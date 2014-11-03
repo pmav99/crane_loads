@@ -17,13 +17,12 @@ import sys
 import logging
 import numbers
 import subprocess
+
 from math import exp
 from collections import namedtuple
 
-
 from jinja2 import Environment, PackageLoader
 
-IMPORTS = set(["division", "tables"])
 
 # In the code we follow these conventions:
 #       ABC#    : The "#" corresponds to the combination index.
@@ -32,6 +31,52 @@ IMPORTS = set(["division", "tables"])
 
 QR = namedtuple("QR", "Gcr_v Gtr_v Qh SQr_MIN Qr_MIN SQr_min Qr_min SQr_MAX Qr_MAX SQr_max Qr_max")
 HT = namedtuple("HT", "K HL ksi1 ksi2 Ls M HT_1 HT_2")
+
+# fatigue coefficient λ,σ
+LS = {
+    "S0": 0.198,
+    "S1": 0.250,
+    "S2": 0.315,
+    "S3": 0.397,
+    "S4": 0.500,
+    "S5": 0.630,
+    "S6": 0.794,
+    "S7": 1.000,
+    "S8": 1.260,
+    "S9": 1.587,
+}
+
+# fatigue coefficient λ,τ
+LT = {
+    "S0": 0.379,
+    "S1": 0.436,
+    "S2": 0.500,
+    "S3": 0.575,
+    "S4": 0.660,
+    "S5": 0.758,
+    "S6": 0.871,
+    "S7": 1.000,
+    "S8": 1.149,
+    "S9": 1.320,
+}
+
+B2 = {
+    "HC1": 0.17,
+    "HC2": 0.34,
+    "HC3": 0.51,
+    "HC4": 0.68,
+}
+
+V2_MIN = {
+    "HC1": 1.05,
+    "HC2": 1.10,
+    "HC3": 1.15,
+    "HC4": 1.20,
+}
+
+
+class CraneError(ValueError):
+    pass
 
 
 class CraneLoads(object):
@@ -42,18 +87,50 @@ class CraneLoads(object):
         "CFM": "CFM.tex",
     }
 
-    def __init__(self):
+    # necessary input
+    _mandatory_values = set(
+        """
+        HC FC RT mf nr mw m
+        L e1 e_min a br a_rad
+        g Gcr Gtr Qr_nom vh
+        v1 v3 v4 v5 v6
+        """.split()
+    )
+
+    def __init__(self, data):
+        """
+        data: A dictionary containing all the necessary input
+
+        """
         self.logger = logging.getLogger().getChild("loads")
         self.env = Environment(loader=PackageLoader('crane_loads', 'templates'))
-        self.data = {}
+        self.data = d = data
+        self._validate_input()
+
+        # calc derived input
+        d["e"] = d["br"] / 4
+        d["Gtot"] = d["Gcr"] + d["Gtr"]
+        d["e2"] = d["e1"] + d["a"]
+        d["b2"] = B2[d["HC"]]
+        d["v2_min"] = V2_MIN[d["HC"]]
+        d["v2"] = d["v2_min"] + d["b2"] * d["vh"]
+        d["vfat"] = max((1 + d["v1"]) / 2, (1 + d["v2"]) / 2)
+        d["lfat_s"] = LS[d["FC"]]
+        d["lfat_t"] = LT[d["FC"]]
+
+    def _validate_input(self):
+        """ Assert that all the necessary input is present. """
+        missing = []
+        input_ = self.data.keys()
+        for name in self._mandatory_values:
+            if name not in input_:
+                missing.append(name)
+        if missing:
+            msg = "Input is missing mandatory data: %s" % ", ".join(missing)
+            self.logger.error(msg)
+            raise CraneError(msg)
 
     def calc(self):
-        # apply precision
-        #d = self.data
-        #for key, value in d.items():
-            #if isinstance(value, numbers.Number):
-                #d[key] = "%.3f" % value
-
         self.calc_Qr()
         self.calc_Ht()
         self.calc_Hs()
@@ -95,21 +172,23 @@ class CraneLoads(object):
     def to_pdf(self):
         pass
 
-    def input_from_object(self, obj):
-        self.data.update(**obj)
-
-    def load_input_from_module(self, module_name):
+    @classmethod
+    def from_module(cls, module_name):
         """ Load input from the given python module. """
-        self.logger.info("Loading input from: %r", os.path.abspath(module_name))
+        logger = logging.getLogger().getChild("input")
+        logger.info("Instantiating from module: %r", os.path.abspath(module_name))
         input_module = __import__(os.path.splitext(module_name)[0])
 
         # Get the variables from the input file excluding the imports
+        input_data = {}
+        imports = set(["division", "tables"])
         for attribute in dir(input_module):
-            if attribute.startswith("_") or attribute in IMPORTS:
+            if attribute.startswith("_") or attribute in imports:
                 continue
             else:
-                self.data[attribute] = getattr(input_module, attribute)
-        self.logger.info("Succesfully loaded data.")
+                input_data[attribute] = getattr(input_module, attribute)
+        logger.info("Succesfully loaded data.")
+        return cls(input_data)
 
     def calc_Qr(self):
         # local names

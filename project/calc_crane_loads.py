@@ -72,16 +72,15 @@ def main():
     logger = logging.getLogger()
 
     # initialize instance
-    loads = CraneLoads()
-    loads.load_input_from_module(options.input_file)
+    loads = CraneLoads.from_module(options.input_file)
     loads.calc()
     tex = loads._create_tex()
 
-    with open("/tmp/foo.tex", "w") as fd:
-        fd.write(tex)
+    #with open("/tmp/foo.tex", "w") as fd:
+        #fd.write(tex)
 
-    import os
-    os.system("xelatex /tmp/foo.tex; mv ./foo.pdf /tmp/; rmtex")
+    #import os
+    #os.system("xelatex /tmp/foo.tex; mv ./foo.pdf /tmp/; rmtex")
 
 
 
