@@ -9,7 +9,7 @@ are calculated based on Tab.~2.5 of EC1991-3:2006.
     scrolling system                    &$=$ {{ RT }}\\
     Wheels per axle    $n_r$            &$=$ ${{ nr }} $ \\
     Individual driving wheels $m_w$     &$=$ ${{ mw }}$ \\
-    Friction factor $\mu$               &$=$ ${{ mf }}$ \\
+    Friction factor $\mu$               &$=$ ${{ "%.3f" % mf }}$ \\
     Hoisting class                      &$=$ {{ HC }} \\
     $φ_{2,min}$                         &$=$ ${{ v2_min }}$ \\
     $β_2$                               &$=$ ${{ b2 }}$ \\
@@ -19,23 +19,23 @@ are calculated based on Tab.~2.5 of EC1991-3:2006.
 \subsection{Loads}
 The values ​​of loads are characteristic ones.
 
-\begin{tabular}{llcr}
-    Self-weight of crane gantry     & $G_{cr}$  &$=$ &${{ Gcr }}$ KN \\
-    Self-weight of trolley          & $G_{tr}$  &$=$ &${{ Gtr }}$ KN \\
-    Total self-weight               & $G_{tot}$ &$=$ &${{ Gtot }}$ KN \\
-    Safe working load               & $Q_{nom}$ &$=$ &${{ Qr_nom }}$ KN
+\begin{tabular}{llcrl}
+    Self-weight of crane gantry     & $G_{cr}$  &$=$ &${{ "%.2f" % Gcr }}$ &KN \\
+    Self-weight of trolley          & $G_{tr}$  &$=$ &${{ "%.2f" % Gtr }}$ &KN \\
+    Total self-weight               & $G_{tot}$ &$=$ &${{ "%.2f" % Gtot }}$ &KN \\
+    Safe working load               & $Q_{nom}$ &$=$ &${{ "%.2f" % Qr_nom }}$ &KN
 \end{tabular}
 
 \subsection{Geometry}
 The crane's geometry is as follows:
 
-\begin{tabular}{llcl}
-    Crane span                                      &$L$          &$=$ &${{ L }}$ m \\
-    Minimum distance of hoist from rail-beams       &$e_{min}$    &$=$ &${{ e_min }}$ m \\
-    Wheel distance upon rail-beam                   &$a$          &$=$ &${{ a }}$ m \\
-    Wheel distance $1$ from guidance means          &$e_1$        &$=$ &${{ e1 }}$ m \\
-    Wheel distance $2$ from guidance means          &$e_2$        &$=$ &${{ e2 }}$ m \\
-    Skewing angle                                   &$α$          &$=$ &${{ a_rad }}$ rad
+\begin{tabular}{llcrl}
+    Crane span                                      &$L$          &$=$ &${{ "%.3f" % L }}$ &m \\
+    Minimum distance of hoist from rail-beams       &$e_{min}$    &$=$ &${{ "%.3f" % e_min }}$ &m \\
+    Wheel distance upon rail-beam                   &$a$          &$=$ &${{ "%.3f" % a }}$ &m \\
+    Wheel distance $1$ from guidance means          &$e_1$        &$=$ &${{ "%.3f" % e1 }}$ &m \\
+    Wheel distance $2$ from guidance means          &$e_2$        &$=$ &${{ "%.3f" % e2 }}$ &m \\
+    Skewing angle                                   &$α$          &$=$ &${{ "%.5f" % a_rad }}$ &rad
 \end{tabular}
 
 \section{Dynamic factors}
