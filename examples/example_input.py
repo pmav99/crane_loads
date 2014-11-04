@@ -15,41 +15,32 @@ and type the values you need.
 g = 1.35
 
 ### Geometry
-# L     :
-# e_min :
-# a     :
-# br    :
-# e     :
-L       = 18
-e_min   = 1.05
-a       = 4
-e1      = 0
-br      = 0.05
+L       = 18                            # Length
+e_min   = 1.05                          # Min distance between crab and rail
+a       = 4                             # Distance between wheels
+e1      = 0                             # Eccentricity of rail 1
+br      = 0.05                          # Width of rail head
 a_rad = 0.0015
 
 ### Loads
-# G,cr      :
-# G,tr      :
-# T,tot     :
-# Qr,nom    :
-Gcr     = 65.19
-Gtr     = 24.09
+Gcr     = 89.28
+Gtr     = 11.84
 Qr_nom  = 80
 
 ### General
-# HC : Hoisting class
-# FC : fatigue class
-# RT : rolling type
+# HC :
+# FC :
+# RT :
 # m  :
-HC = "HC2"
-FC = "S3"
-RT = "IFF"
-m = 0
+HC = "HC2"                              # Hoisting class
+FC = "S3"                               # fatigue class
+RT = "IFF"                              # rolling type
+m = 0                                   # Number of pairs of coupled wheels.
 
-vh = 6.25 #5 / 60
-mf = 0.2
-mw = 2
-nr = 2
+vh = 6.25 / 60                          # Hoisting speed
+mf = 0.2                                # friction factor
+mw = 2                                  # Number of single wheel drives
+nr = 2                                  # Number of wheels per axis
 
 ### Dynamic coefficients
 v1 = 1.1
