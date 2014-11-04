@@ -1,0 +1,52 @@
+\section{Συγκεντρωτικοί πίνακες φορτίων}
+
+Στους πίνακες που ακολουθούν παρουσιάζονται συγκεντρωτικά τα φορτία της γερανογέφυρας τόσο στην
+Οριακή Κατάσταση Λειτουργικότητας (ΟΚΛ) όσο και στην Οριακή Κατάσταση Αστοχίας (ΟΚΑ)
+
+\begin{sidewaystable}[htpb]
+\begin{center}
+\begin{tabular}{ccrrrrrr}
+\toprule
+\multicolumn{3}{c}{Συνδυασμός φόρτισης}                                                     & \makebox[1cm][c]{1ος}  & \makebox[1cm][c]{2ος}  & \makebox[1cm][c]{3ος}  & \makebox[1cm][c]{4ος}  & \makebox[1cm][c]{5ος} \\   \midrule
+%
+\multirow{4}{*}{Κατακόρυφα Φορτία}  & \multirow{2}{*}{Ίδιο βάρος}       & $Q_{r,min}$       & ${{ "%.2f" % QR1.Qr_max }}$   & ${{ "%.2f" % QR2.Qr_max }}$   & ${{ "%.2f" % QR3.Qr_max }}$   & ${{ "%.2f" % QR4.Qr_max }}$   & ${{ "%.2f" % QR5.Qr_max }}$ \\
+                                    &                                   & $Q_{r,(min)}$     & ${{ "%.2f" % QR1.Qr_min }}$   & ${{ "%.2f" % QR2.Qr_min }}$   & ${{ "%.2f" % QR3.Qr_min }}$   & ${{ "%.2f" % QR4.Qr_min }}$   & ${{ "%.2f" % QR5.Qr_min }}$ \\ \cmidrule(l){2-8}
+                                    &  Ίδιο βάρος +                     & $Q_{r,max}$       & ${{ "%.2f" % QR1.Qr_MAX }}$   & ${{ "%.2f" % QR2.Qr_MAX }}$   & \makebox[1cm][c]{-}           & ${{ "%.2f" % QR4.Qr_MAX }}$   & ${{ "%.2f" % QR5.Qr_MAX }}$ \\
+                                    & Ωφέλιμο βάρος                     & $Q_{r,(max)}$     & ${{ "%.2f" % QR1.Qr_MIN }}$   & ${{ "%.2f" % QR2.Qr_MIN }}$   & \makebox[1cm][c]{-}           & ${{ "%.2f" % QR4.Qr_MIN }}$   & ${{ "%.2f" % QR5.Qr_MIN }}$ \\ \midrule
+%
+\multirow{6}{*}{Οριζόντια Φορτία}   & \multirow{4}{*}{Επιτάχυνση}       & $H_{L1}$    & ${{ "%.2f" % HT1.HL }}$      & ${{ "%.2f" % HT1.HL }}$    & ${{ "%.2f" % HT4.HL }}$    & ${{ "%.2f" % HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{L2}$    & ${{ "%.2f" % HT1.HL }}$      & ${{ "%.2f" % HT1.HL }}$    & ${{ "%.2f" % HT4.HL }}$    & ${{ "%.2f" % HT4.HL }}$    & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{T1}$    & ${{ "%.2f" % HT1.HT_1 }}$    & ${{ "%.2f" % HT1.HT_1 }}$  & ${{ "%.2f" % HT4.HT_1 }}$  & ${{ "%.2f" % HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{T2}$    & ${{ "%.2f" % HT1.HT_2 }}$    & ${{ "%.2f" % HT1.HT_2 }}$  & ${{ "%.2f" % HT4.HT_2 }}$  & ${{ "%.2f" % HT4.HT_2 }}$  & \makebox[1cm][c]{-}   \\ \cmidrule(l){2-8}
+%
+                                    & \multirow{2}{*}{Παράγωγη κίνηση}  & $H_{S,1T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ "%.2f" % H_s1T }}$ \\
+                                    &                                   & $H_{S,2T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ "%.2f" % H_s2T }}$ \\ \bottomrule
+%
+\end{tabular}
+\end{center}
+\caption{Φορτία γερανογέφυρας, στην Οριακή Κατάσταση Λειτουργικότητα ($γ = 1.00$)}
+\end{sidewaystable}
+
+\begin{sidewaystable}[htpb]
+\begin{center}
+\begin{tabular}{ccrrrrrr}
+\toprule
+\multicolumn{3}{c}{Συνδυασμός φόρτισης}                                                     & \makebox[1cm][c]{1ος}  & \makebox[1cm][c]{2ος}  & \makebox[1cm][c]{3ος}  & \makebox[1cm][c]{4ος}  & \makebox[1cm][c]{5ος} \\   \midrule
+%
+\multirow{4}{*}{Κατακόρυφα Φορτία}  & \multirow{2}{*}{Ίδιο βάρος}       & $Q_{r,min}$       & ${{ "%.2f" % (g * QR1.Qr_max) }}$    & ${{ "%.2f" % (g * QR2.Qr_max) }}$    & ${{ "%.2f" % (g * QR3.Qr_max) }}$    & ${{ "%.2f" % (g * QR4.Qr_max) }}$    & ${{ "%.2f" % (g * QR5.Qr_max) }}$ \\
+                                    &                                   & $Q_{r,(min)}$     & ${{ "%.2f" % (g * QR1.Qr_min) }}$    & ${{ "%.2f" % (g * QR2.Qr_min) }}$    & ${{ "%.2f" % (g * QR3.Qr_min) }}$    & ${{ "%.2f" % (g * QR4.Qr_min) }}$    & ${{ "%.2f" % (g * QR5.Qr_min) }}$ \\ \cmidrule(l){2-8}
+                                    &  Ίδιο βάρος +                     & $Q_{r,max}$       & ${{ "%.2f" % (g * QR1.Qr_MAX) }}$    & ${{ "%.2f" % (g * QR2.Qr_MAX) }}$    & \makebox[1cm][c]{-}       & ${{ "%.2f" % (g * QR4.Qr_MAX) }}$    & ${{ "%.2f" % (g * QR5.Qr_MAX) }}$ \\
+                                    & Ωφέλιμο βάρος                     & $Q_{r,(max)}$     & ${{ "%.2f" % (g * QR1.Qr_MIN) }}$    & ${{ "%.2f" % (g * QR2.Qr_MIN) }}$    & \makebox[1cm][c]{-}       & ${{ "%.2f" % (g * QR4.Qr_MIN) }}$    & ${{ "%.2f" % (g * QR5.Qr_MIN) }}$ \\ \midrule
+%
+\multirow{6}{*}{Οριζόντια Φορτία}   & \multirow{4}{*}{Επιτάχυνση}       & $H_{L1}$    & ${{ "%.2f" % (g * HT1.HL) }}$      & ${{ "%.2f" % (g * HT1.HL) }}$    & ${{ "%.2f" % (g * HT4.HL) }}$    & ${{ "%.2f" % (g * HT4.HL) }}$    & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{L2}$    & ${{ "%.2f" % (g * HT1.HL) }}$      & ${{ "%.2f" % (g * HT1.HL) }}$    & ${{ "%.2f" % (g * HT4.HL) }}$    & ${{ "%.2f" % (g * HT4.HL) }}$    & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{T1}$    & ${{ "%.2f" % (g * HT1.HT_1) }}$    & ${{ "%.2f" % (g * HT1.HT_1) }}$  & ${{ "%.2f" % (g * HT4.HT_1) }}$  & ${{ "%.2f" % (g * HT4.HT_1) }}$  & \makebox[1cm][c]{-}   \\
+                                    &                                   & $H_{T2}$    & ${{ "%.2f" % (g * HT1.HT_2) }}$    & ${{ "%.2f" % (g * HT1.HT_2) }}$  & ${{ "%.2f" % (g * HT4.HT_2) }}$  & ${{ "%.2f" % (g * HT4.HT_2) }}$  & \makebox[1cm][c]{-}   \\ \cmidrule(l){2-8}
+%
+                                    & \multirow{2}{*}{Παράγωγη κίνηση}  & $H_{S,1T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ "%.2f" % (g * H_s1T) }}$ \\
+                                    &                                   & $H_{S,2T}$  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & \makebox[1cm][c]{-}  & ${{ "%.2f" % (g * H_s2T) }}$ \\ \bottomrule
+%
+\end{tabular}
+\end{center}
+\caption{Φορτία γερανογέφυρας, στην Οριακή Κατάσταση Λειτουργικότητα ($γ = 1.00$)}
+\end{sidewaystable}

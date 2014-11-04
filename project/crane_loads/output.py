@@ -37,12 +37,26 @@ class LaTeXOutput(CraneOutput):
         "CFM": "CFM.tex",
     }
 
-    def __init__(self, data, engine="xelatex", output_filename=None):
+    known_languages = {
+        "en": "en",
+        "gr": "gr",
+    }
+
+    def __init__(self, data, language, engine="xelatex", output_filename=None):
         self.logger = logging.getLogger().getChild("latex")
-        self.env = Environment(loader=PackageLoader('crane_loads', 'templates'))
+
+        if language not in self.known_languages:
+            msg = "Unknown language <%s>. Please choose one of: %r" % language, self.known_languages.keys()
+            self.logger.error(msg)
+            raise ValueError(msg)
+
         self.data = data
         self.engine=engine
         self.output_filename = output_filename
+
+        # get templates
+        template_path = os.path.join('templates', language)
+        self.env = Environment(loader=PackageLoader('crane_loads', template_path))
 
     def create_tex(self):
         # we have to determine which skewing template to use during runtime.

@@ -74,7 +74,7 @@ def main():
     crane_loads.calc()
 
     # Create tex output
-    latex = LaTeXOutput(crane_loads.data)
+    latex = LaTeXOutput(crane_loads.data, language="en")
     pdf_file = latex.compile()
     print(pdf_file)
 
