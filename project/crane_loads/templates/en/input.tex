@@ -1,54 +1,54 @@
-\section{Δεδομένα}
-\subsection{Γενικά στοιχεία}
+\section{Input}
+\subsection{General}
 
-Οι συντελεστές $φ_{2,min}$ και $β_2$ εξαρτώνται από την κατηγορία ανύψωσης της γερανογέφυρας και
-υπολογίζονται βάσει του πίνακα~2.5 του EC1991-3:2006.
+Factors $φ_{2,min}$ and $β_2$ depent on the hoisting class and
+are calculated based on Tab.~2.5 of EC1991-3:2006.
 
 \begin{tabular}{llcr}
-    Κατηγορία κόπωσης                   &$=$ {{ FC }} \\
-    Σύστημα κύλισης                     &$=$ {{ RT }}\\
-    Τροχοί ανά άξονα    $n_r$           &$=$ ${{ nr }} $ \\
-    Μεμονωμένοι κινητήριοι τροχοί $m_w$ &$=$ ${{ mw }}$ \\
-    Συντελεστής τριβής $\mu$            &$=$ ${{ mf }}$ \\
-    Κατηγορία ανύψωσης                  &$=$ {{ HC }} \\
+    Fatigue class                       &$=$ {{ FC }} \\
+    scrolling system                    &$=$ {{ RT }}\\
+    Wheels per axle    $n_r$            &$=$ ${{ nr }} $ \\
+    Individual driving wheels $m_w$     &$=$ ${{ mw }}$ \\
+    Friction factor $\mu$               &$=$ ${{ mf }}$ \\
+    Hoisting class                      &$=$ {{ HC }} \\
     $φ_{2,min}$                         &$=$ ${{ v2_min }}$ \\
     $β_2$                               &$=$ ${{ b2 }}$ \\
-    Ταχύτητα ανύψωσης  $V_h$            &$=$ ${{ "%.3f" % vh }}$ m/sec
+    Hoisting speed  $V_h$               &$=$ ${{ "%.3f" % vh }}$ m/sec
 \end{tabular}
 
-\subsection{Φορτία}
-Οι τιμές των φορτίων είναι χαρακτηριστικές τιμές.
+\subsection{Loads}
+The values ​​of loads are characteristic ones.
 
 \begin{tabular}{llcr}
-    Ίδιο βάρος γερανογέφυρας     & $G_{cr}$  &$=$ &${{ Gcr }}$ KN \\
-    Ίδιο βάρος φορείου           & $G_{tr}$  &$=$ &${{ Gtr }}$ KN \\
-    Συνολικό ίδιο βάρος          & $G_{tot}$ &$=$ &${{ Gtot }}$ KN \\
-    Ωφέλιμο φορτίο               & $Q_{nom}$ &$=$ &${{ Qr_nom }}$ KN
+    Self-weight of crane gantry     & $G_{cr}$  &$=$ &${{ Gcr }}$ KN \\
+    Self-weight of trolley          & $G_{tr}$  &$=$ &${{ Gtr }}$ KN \\
+    Total self-weight               & $G_{tot}$ &$=$ &${{ Gtot }}$ KN \\
+    Safe working load               & $Q_{nom}$ &$=$ &${{ Qr_nom }}$ KN
 \end{tabular}
 
-\subsection{Γεωμετρία}
-Τα γεωμετρικά χαρακτηριστικά της γερανογέφυρας είναι:
+\subsection{Geometry}
+The crane's geometry is as follows:
 
 \begin{tabular}{llcl}
-    Άνοιγμα γερανογέφυρας                         &$L$          &$=$ &${{ L }}$ m \\
-    Ελάχιστη απόσταση άγκιστρου από τις τροχιές   &$e_{min}$    &$=$ &${{ e_min }}$ m \\
-    Απόσταση τροχών επί της δοκού κύλισης         &$a$          &$=$ &${{ a }}$ m \\
-    Απόσταση τροχών $1$ από τα μέσα καθοδήγησης   &$e_1$        &$=$ &${{ e1 }}$ m \\
-    Απόσταση τροχών $2$ από τα μέσα καθοδήγησης   &$e_2$        &$=$ &${{ e2 }}$ m \\
-    Γωνία λοξότητας (skewing angle)               &$α$          &$=$ &${{ a_rad }}$ rad
+    Crane span                                      &$L$          &$=$ &${{ L }}$ m \\
+    Minimum distance of hoist from rail-beams       &$e_{min}$    &$=$ &${{ e_min }}$ m \\
+    Wheel distance upon rail-beam                   &$a$          &$=$ &${{ a }}$ m \\
+    Wheel distance $1$ from guidance means          &$e_1$        &$=$ &${{ e1 }}$ m \\
+    Wheel distance $2$ from guidance means          &$e_2$        &$=$ &${{ e2 }}$ m \\
+    Skewing angle                                   &$α$          &$=$ &${{ a_rad }}$ rad
 \end{tabular}
 
-\section{Δυναμικοί συντελεστές}
-Οι δυναμικοί συντελεστές υπολογίζονται σύμφωνα με το ΕΝ1991-3:2006.
+\section{Dynamic factors}
+Dynamic factors are calculated according to EΝ1991-3:2006. More specifically:
 
-Ο συντελεστής $φ_1$ εφαρμόζεται στα μόνιμα φορτία και αντιπροσωπεύει τις ταλαντώσεις της
-γερανογέφυρας. Ο συντελεστής $φ_2$ εφαρμόζεται στο ανυψούμενο φορτίο και η τιμή του διαφοροποιείται
-ανάλογα με την κατηγορία ανύψωσης και την ταχύτητα ανύψωσης. Ο συντελεστής $φ_3$ εξαρτάται από τον
-τρόπο απόθεσης του ανυψούμενου φορτίου. Υπέρ της ασφαλείας μπορεί να θεωρηθεί ίσος με τη μονάδα.
-Ο συντελεστής $φ_4$, θεωρώντας ότι έχουν τηρηθεί οι ανοχές για τη σιδηροτροχιά που ορίζονται στο
-ΕΝ1993-6:2007, μπορεί να λαμβάνεται και αυτός ίσος με τη μονάδα. Ο συντελεστής $φ_5$ εξαρτάται από
-τον τρόπο με τον οποίο μεταβάλλονται οι δυνάμεις στη γερανογέφυρα. Ο συντελεστής $φ_6$ εξαρτάται από
-το τρόπο διεξαγωγής της δοκιμαστικής φόρτισης καθώς και από το μέγεθος του δοκιμαστικού φορτίου.
+\begin{itemize}
+    \item Factor $ φ_1 $ applies to permanent loads and represents the vibrations of the crane.
+    \item Factor $ φ_2 $ applies to safe working load (SWL) and its value varies depending on the lifting class and lifting speed.
+    \item Factor $ φ_3 $ depends on the way that the hoist load is lifted.  For safety may be considered equal to one.
+    \item Factor $ φ_4 $, taken into account that the rail tolerances specified in EN1993-6: 2007, can be taken equal to unity.
+    \item Factor $ φ_5 $ depends on the way in which forces in crane gantry fluctuate.
+    \item Factor $ φ_6 $ depends on the pattern of the test load and the size of the test load.
+\end{itemize}
 
 \begin{tabular}{llcr}
     $φ_1$ &$= {{ v1 }} $ \\

@@ -1,22 +1,21 @@
 \section{Φορτία}
 
-Συνολικά ορίζονται 10 συνδυασμοί φόρτισης. Ο υπολογισμός των φορτίων γίνεται πολλαπλασιάζοντας τις
-χαρακτηριστικές τιμές των των ιδίων βαρών και των ωφέλιμων φορτίων με τους αντίστοιχους δυναμικούς
-συντελεστές $φ_i$, όπως ορίζονται στον πίνακα~2.2 του EC1991-3:2006. Στη συνέχεια, και για κάθε
-συνδυασμό φόρτισης, υπολογίζονται τα μέγιστα (φορτισμένη γερανογέφυρα) και τα ελάχιστα (αφόρτιστη
-γερανογέφυρα) φορτία τροχού της γερανογέφυρας.
+In overall there are 10 load combinations. The calculation of the loads takes place by multiplying
+the characteristic values of the self-weights and safe working load (SWL) with the according dynamic
+factors $φ_i$, as specified in Tab.~2.2 of EC1991-3:2006. then, and for each load combination, the max
+(loaded crane) and min (unloaded crane) wheel loads of the crane girder are calculated.
 
-\subsection{Κατακόρυφα φορτία}
-\subsubsection{1ος συνδυασμός φορτίων}
+\subsection{Vertical forces}
+\subsubsection{1st load combination}
 
-Δυναμικά φορτία:
+Dynamic loading:
 \begin{align*}
     G_{cr,φ} &= G_{cr} \cdot φ_1  = {{ "%.3f" % QR1.Gcr_v }} \text{ KN} \\
     G_{tr,φ} &= G_{tr} \cdot φ_1  = {{ "%.3f" % QR1.Gtr_v }} \text{ KN} \\
     Qh       &= Q_{nom} \cdot φ_2 = {{ "%.3f" % QR1.Qh }}   \text{ KN}
 \end{align*}
 
-Αφόρτιστη γερανογέφυρα:
+Unloaded crane:
 \begin{align*}
     \sum{Q_{r,min}}   &= \dfrac{G_{cr,φ}}{2} + \dfrac{G_{tr,φ} \cdot (L - a)}{L} = {{ "%.3f" % QR1.SQr_max }} \text{ KN} \\
     Q_{r,min}         &= \dfrac{\displaystyle\sum{Q_{r,min}}}{2}                 = {{ "%.3f" % QR1.Qr_max }}  \text{ KN} \\
@@ -24,7 +23,7 @@
     Q_{r,(min)}       &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}               = {{ "%.3f" % QR1.Qr_min }}  \text{ KN}
 \end{align*}
 
-Φορτισμένη γερανογέφυρα
+Loaded crane:
 \begin{align*}
     \sum{Q_{r,\max}}     &= \dfrac{G_{cr,φ}}{2} + \dfrac{(G_{tr,φ} + Qh) \cdot (L - a)}{L} = {{ "%.3f" % QR1.SQr_MAX }} \text{ KN} \\
     Q_{r,\max}           &= \dfrac{\displaystyle\sum{Q_{r,\max}}}{2}                       = {{ "%.3f" % QR1.Qr_MAX }}  \text{ KN} \\
@@ -32,15 +31,16 @@
     Q_{r,(\max)}         &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}                      = {{ "%.3f" % QR1.Qr_MIN }} \text{ KN}
 \end{align*}
 
-\subsubsection{2ος συνδυασμός φορτίων}
-Δυναμικά  φορτία
+\subsubsection{2nd load combination}
+
+Dynamic loading
 \begin{align*}
     G_{cr,φ} &= G_{cr} \cdot φ_1  = {{ "%.3f" % QR2.Gcr_v }} \text{ KN} \\
     G_{tr,φ} &= G_{tr} \cdot φ_1  = {{ "%.3f" % QR2.Gtr_v }} \text{ KN} \\
     Qh       &= Q_{nom} \cdot φ_3 = {{ "%.3f" % QR2.Qh }}   \text{ KN}
 \end{align*}
 
-Αφόρτιστη γερανογέφυρα
+Unloaded crane:
 \begin{align*}
     \sum{Q_{r,min}}   &= \dfrac{G_{cr,φ}}{2} + \dfrac{G_{tr,φ} \cdot (L - a)}{L} = {{ "%.3f" % QR2.SQr_max }} \text{ KN} \\
     Q_{r,min}         &= \dfrac{\displaystyle\sum{Q_{r,min}}}{2}                 = {{ "%.3f" % QR2.Qr_max }}  \text{ KN} \\
@@ -48,7 +48,7 @@
     Q_{r,(min)}       &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}               = {{ "%.3f" % QR2.Qr_min }}  \text{ KN}
 \end{align*}
 
-Φορτισμένη γερανογέφυρα
+Loaded crane:
 \begin{align*}
     \sum{Q_{r,\max}}     &= \dfrac{G_{cr,φ}}{2} + \dfrac{(G_{tr,φ} + Qh) \cdot (L - a)}{L} = {{ "%.3f" % QR2.SQr_MAX }} \text{ KN} \\
     Q_{r,\max}           &= \dfrac{\displaystyle\sum{Q_{r,\max}}}{2}                       = {{ "%.3f" % QR2.Qr_MAX }}  \text{ KN} \\
@@ -56,15 +56,16 @@
     Q_{r,(\max)}         &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}                      = {{ "%.3f" % QR2.Qr_MIN }} \text{ KN}
 \end{align*}
 
-\subsubsection{3ος συνδυασμός φορτίων}
-Δυναμικά  φορτία
+\subsubsection{3rd load combination}
+
+Dynamic loading
 \begin{align*}
     G_{cr,φ} &= G_{cr} \cdot 1.00  = {{ "%.3f" % QR3.Gcr_v }} \text{ KN} \\
     G_{tr,φ} &= G_{tr} \cdot 1.00  = {{ "%.3f" % QR3.Gtr_v }} \text{ KN} \\
     Qh       &= Q_{nom} \cdot 0.00 = {{ "%.3f" % QR3.Qh }}   \text{ KN}
 \end{align*}
 
-Αφόρτιστη γερανογέφυρα
+Unloaded crane:
 \begin{align*}
     \sum{Q_{r,min}}   &= \dfrac{G_{cr,φ}}{2} + \dfrac{G_{tr,φ} \cdot (L - a)}{L} = {{ "%.3f" % QR3.SQr_max }} \text{ KN} \\
     Q_{r,min}         &= \dfrac{\displaystyle\sum{Q_{r,min}}}{2}                 = {{ "%.3f" % QR3.Qr_max }}  \text{ KN} \\
@@ -72,7 +73,7 @@
     Q_{r,(min)}       &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}               = {{ "%.3f" % QR3.Qr_min }}  \text{ KN}
 \end{align*}
 
-Φορτισμένη γερανογέφυρα
+Loaded crane:
 \begin{align*}
     \sum{Q_{r,\max}}     &= \dfrac{G_{cr,φ}}{2} + \dfrac{(G_{tr,φ} + Qh) \cdot (L - a)}{L} = {{ "%.3f" % QR3.SQr_MAX }} \text{ KN} \\
     Q_{r,\max}           &= \dfrac{\displaystyle\sum{Q_{r,\max}}}{2}                       = {{ "%.3f" % QR3.Qr_MAX }}  \text{ KN} \\
@@ -80,16 +81,16 @@
     Q_{r,(\max)}         &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}                      = {{ "%.3f" % QR3.Qr_MIN }} \text{ KN}
 \end{align*}
 
-\subsubsection{4ος συνδυασμός φορτίων}
+\subsubsection{4th load combination}
 
-Δυναμικά  φορτία
+Dynamic loading
 \begin{align*}
     G_{cr,φ} &= G_{cr} \cdot φ_4  = {{ "%.3f" % QR4.Gcr_v }} \text{ KN} \\
     G_{tr,φ} &= G_{tr} \cdot φ_4  = {{ "%.3f" % QR4.Gtr_v }} \text{ KN} \\
     Qh       &= Q_{nom} \cdot φ_4 = {{ "%.3f" % QR4.Qh }}   \text{ KN}
 \end{align*}
 
-Αφόρτιστη γερανογέφυρα
+Unloaded crane:
 \begin{align*}
     \sum{Q_{r,min}}   &= \dfrac{G_{cr,φ}}{2} + \dfrac{G_{tr,φ} \cdot (L - a)}{L} = {{ "%.3f" % QR4.SQr_max }} \text{ KN} \\
     Q_{r,min}         &= \dfrac{\displaystyle\sum{Q_{r,min}}}{2}                 = {{ "%.3f" % QR4.Qr_max }}  \text{ KN} \\
@@ -97,7 +98,7 @@
     Q_{r,(min)}       &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}               = {{ "%.3f" % QR4.Qr_min }}  \text{ KN}
 \end{align*}
 
-Φορτισμένη γερανογέφυρα
+Loaded crane:
 \begin{align*}
     \sum{Q_{r,\max}}     &= \dfrac{G_{cr,φ}}{2} + \dfrac{(G_{tr,φ} + Qh) \cdot (L - a)}{L} = {{ "%.3f" % QR4.SQr_MAX }} \text{ KN} \\
     Q_{r,\max}           &= \dfrac{\displaystyle\sum{Q_{r,\max}}}{2}                       = {{ "%.3f" % QR4.Qr_MAX }}  \text{ KN} \\
@@ -105,21 +106,21 @@
     Q_{r,(\max)}         &= \dfrac{\displaystyle\sum{Q_{r,(min)}}}{2}                      = {{ "%.3f" % QR4.Qr_MIN }} \text{ KN}
 \end{align*}
 
-\subsubsection{5oς συνδυασμός φορτίων}Ομοίως με τον 4ο.
+\subsubsection{5th load combination}Similar to 4th.
 
-\subsubsection{6oς συνδυασμός φορτίων}Ομοίως με τον 4ο.
+\subsubsection{6th load combination}Similar to 4th.
 
-\subsection{Οριζόντια φορτία λόγω επιτάχυνσης ή επιβράδυνσης}
+\subsection{Horizontal forces due to acceleration or deceleration}
 
-Η κινητήρια δύναμη της γερανογέφυρας $K$ ασκείται στον άξονα της κίνησής της. H δύναμη αυτή
-ισομοιράζεται σε δύο οριζόντιες κατά μήκος της τροχιάς δυνάμεις $H_L$ ασκούμενες στους τροχούς. Το
-κέντρο βάρους όμως του συστήματος γερανογέφυρα - αναρτημένο φορτίο, βρίσκεται σε απόσταση $l_s$ από
-τον άξονα της κίνησης, με αποτέλεσμα να παράγεται μια στρεπτική ροπή $M$. Για λόγους ισορροπίας
-λοιπόν, αναπτύσσεται το ζεύγος των αντίρροπων δυνάμεων $H_{T1}$ - $H_{T2}$ στις θέσεις των τροχών.
+The drive force of the crane $ K $ is applied on the axis of motion. This force splits equally
+to two forces $ H_L $ along the horizontal track applied on the wheels. However, the
+centre of gravity of the the crane gantry-hoist load system is within $ l_s $ from the axis of
+motion, resulting in a twisting moment generated $ M $. To balance those a pair of opposing
+forces $ H_ {T1} $ - $ H_ {T2} $ is applied in the position of the wheels.
 
-\subsubsection{1ος και 2ος συνδυασμός φόρτισης}
+\subsubsection{1st and 2nd load combination}
 
-Για τους δύο πρώτους συνδυασμούς φόρτισης ισχύει ότι:
+For the first two load combination it holds that:
 \begin{align*}
     K         &= μ \cdot m_w \cdot Q_{r,(min)}  = {{ "%.3f" % HT1.K }} \text{KN} \\
     H_{L,1}   &= \dfrac{φ_5 \cdot K} {n_r} = {{ "%.3f" % HT1.HL }} \text{KN} \\
@@ -132,9 +133,9 @@
     H_{T2}    &= φ_5 \cdot ξ_1 \cdot \dfrac{M}{a} = {{ "%.3f" % HT1.HT_2 }} \text{KN}
 \end{align*}
 
-\subsubsection{3ος, 4ος και 8ος συνδυασμός φόρτισης}
+\subsubsection{3rd, 4th and 8th load combinations}
 
-Για τον 3ο, τον 4ο και τον 8ο συνδυασμό φόρτισης ισχύει ότι:
+For the 3rd, 4th and 8th load combination it holds that:
 \begin{align*}
     K         &= μ \cdot m_w \cdot Q_{r,(min)}  = {{ "%.3f" % HT4.K }} \text{KN} \\
     H_{L,1}   &= \dfrac{φ_5 \cdot K} {n_r} = {{ "%.3f" % HT4.HL }} \text{KN} \\

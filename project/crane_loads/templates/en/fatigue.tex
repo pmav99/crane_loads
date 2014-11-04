@@ -1,32 +1,27 @@
-\section{Φορτίο κόπωσης}
+\section{Fatigue loads}
 
-Για τον υπολογισμό των επιπτώσεων της κόπωσης χρησιμοποιείται ένα ισοδύναμο φορτίο κόπωσης. Για τον
-υπολογισμό του χρησιμοποιούνται οι χαρακτηριστικές τιμές των φορτίων της γερανογέφυρας (χωρίς
-δυναμικούς συντελεστές). Έτσι λοιπόν η μέγιστη χαρακτηριστική τιμή του φορτίου τροχού  $Q_{max,i}$
-είναι:
-
+To calculate the effects of fatigue an equivalent fatigue load is used. For its
+calculation  characteristic values of the loads of the crane are used (without
+dynamic coefficients). So the maximum characteristic value of the load wheel $Q_{max,i}$
+is:
 \begin{align*}
     \sum{Q_{max,i}} &= \dfrac{G_{cr}}{2} + \dfrac{(G_{tr} + Q_h) \cdot (L - a)}{L} = {{ "%.3f" % SQmax_i }} \text{ KN} \\
     Q_{max,i}       &= \dfrac{\displaystyle\sum{Q_e}}{2}                           = {{ "%.3f" % Qmax_i }}  \text{ KN}
 \end{align*}
 
-Ο δυναμικός συντελεστής της κόπωσης υπολογίζεται ως ακολούθως:
-
+The dynamic fatigue factor follows:
 \begin{equation*}
     φ_{fat} = \max \left( \dfrac{1+φ_1}{2}\ ; \ \dfrac{1+φ_2}{2} \right) {{ "%.3f" % vfat }}
 \end{equation*}
 
-Οι συντελεστές $λ_σ$ και $λ_τ$ εξαρτώνται από την κατηγορία κόπωσης της γερανογέφυρας. Έτσι σύμφωνα
-με τον πίνακα 2.12 του EC1991-3:2006 έχουμε ότι για κατηγορία κόπωσης ${{ FC }}$ ισχύει
-ότι:
-
+Factors $λ_σ$ και $λ_τ$ depend on the fatigue class of the crane. According to
+Tab.2.12 of EC1991-3:2006 for fatigue class $S3$ it holds that:
 \begin{align*}
     λ_σ &= {{ "%.3f" % lfat_s }}\\
     λ_τ &= {{ "%.3f" % lfat_t }}
 \end{align*}
 
-Τελικά το φορτίο τροχού για σχεδιασμό έναντι κόπωσης είναι:
-
+Finally the wheel load for fatigue design is:
 \begin{align*}
     Q_{e,σ} &= φ_{fat} \cdot λ_σ \cdot Q_{max,i} = {{ "%.3f" % Qes }}\\
     Q_{e,τ} &= φ_{fat} \cdot λ_τ \cdot Q_{max,i} = {{ "%.3f" % Qet }}
