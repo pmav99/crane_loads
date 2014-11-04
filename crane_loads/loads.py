@@ -4,7 +4,7 @@
 # email : gmail, pmav99
 
 """
-Calculate crane Loads according to Eurocode.
+Calculate crane Loads according to Eurocode 1991-2
 """
 
 from __future__ import division

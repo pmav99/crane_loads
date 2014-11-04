@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# author: Panagiotis Mavrogiorgos
+# email : gmail, pmav99
 
 """
 Calculate crane loads.
@@ -15,6 +17,7 @@ from __future__ import absolute_import
 
 # Standard Library
 import os
+import sys
 import logging
 import logging.config
 import argparse
@@ -30,7 +33,7 @@ class Options(OptionsBorg):
     def parse_arguments(self):
         parser = argparse.ArgumentParser(
             description=crane_loads.__short_description__,
-            prog=crane_loads.__package_name__,
+            prog="cranes_to_tex",
             epilog="",
         )
 
@@ -43,7 +46,7 @@ class Options(OptionsBorg):
         parser.add_argument(
             'input_file',
             action="store",
-            help="The name of the file that contains the input of the crane."
+            help="The name of the file that contains the input data for the crane."
         )
 
         parser.add_argument(
@@ -51,7 +54,7 @@ class Options(OptionsBorg):
             action="store",
             dest="config_file",
             default="config.json",
-            help="The location of the configuration file. Defaults to 'config.json'."
+            help="The location of the configuration file. Defaults to './config.json'."
         )
 
         options = parser.parse_args()
@@ -70,6 +73,8 @@ def main():
     logger = logging.getLogger()
 
     # Calculate crane loads.
+    # NOTE: We add the directory of the input file to the PATH!!!
+    sys.path.append(os.path.abspath(os.path.dirname(options.config_file)))
     crane_loads = CraneLoads.from_module(options.input_file)
     crane_loads.calc()
 
@@ -78,7 +83,7 @@ def main():
     pdf_file = latex.compile()
     print(pdf_file)
 
-    #subprocess.call(["evince", pdf_file])
+    subprocess.call(["evince", pdf_file])
 
 
 if __name__ == "__main__":

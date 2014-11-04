@@ -21,17 +21,19 @@ g = 1.35
 # br    :
 # e     :
 L       = 18
-e_min   = 1.510
+e_min   = 1.05
 a       = 4
+e1      = 0
 br      = 0.05
+a_rad = 0.0015
 
 ### Loads
 # G,cr      :
 # G,tr      :
 # T,tot     :
 # Qr,nom    :
-Gcr     = 89.28
-Gtr     = 11.84
+Gcr     = 65.19
+Gtr     = 24.09
 Qr_nom  = 80
 
 ### General
@@ -43,13 +45,11 @@ HC = "HC2"
 FC = "S3"
 RT = "IFF"
 m = 0
-a_rad = 0.0015
 
-vh = 5 / 60
+vh = 6.25 #5 / 60
 mf = 0.2
 mw = 2
 nr = 2
-e1 = 0
 
 ### Dynamic coefficients
 v1 = 1.1

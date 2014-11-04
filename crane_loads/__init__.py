@@ -28,6 +28,7 @@ __url__ = "http://bitbucket.org/pmav99/%s" % __package_name__
 __download_url__ = "http://bitbucket.org/pmav99/%s/downloads" % __package_name__
 __author__ = "Panagiotis Mavrogiorgos"
 __author_email__ = "gmail pmav99"
+__platforms__ = ("Linux",)
 
 # Package imports
 from .utils import OptionsBorg, Config
