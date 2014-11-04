@@ -18,14 +18,12 @@ import os
 import logging
 import logging.config
 import argparse
+import subprocess
 from pprint import pprint
-
-# 3rd party libraries
-from jinja2 import Environment, PackageLoader
 
 # Our libraries
 import crane_loads
-from crane_loads import Config, OptionsBorg, CraneLoads
+from crane_loads import Config, OptionsBorg, CraneLoads, LaTeXOutput
 
 
 class Options(OptionsBorg):
@@ -71,17 +69,16 @@ def main():
     logging.config.dictConfig(config["logging"])
     logger = logging.getLogger()
 
-    # initialize instance
-    loads = CraneLoads.from_module(options.input_file)
-    loads.calc()
-    tex = loads._create_tex()
+    # Calculate crane loads.
+    crane_loads = CraneLoads.from_module(options.input_file)
+    crane_loads.calc()
 
-    #with open("/tmp/foo.tex", "w") as fd:
-        #fd.write(tex)
+    # Create tex output
+    latex = LaTeXOutput(crane_loads.data)
+    pdf_file = latex.compile()
+    print(pdf_file)
 
-    #import os
-    #os.system("xelatex /tmp/foo.tex; mv ./foo.pdf /tmp/; rmtex")
-
+    #subprocess.call(["evince", pdf_file])
 
 
 if __name__ == "__main__":

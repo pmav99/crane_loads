@@ -32,3 +32,4 @@ __author_email__ = "gmail pmav99"
 # Package imports
 from .utils import OptionsBorg, Config
 from .main import CraneLoads
+from .output import LaTeXOutput

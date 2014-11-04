@@ -21,8 +21,6 @@ import subprocess
 from math import exp
 from collections import namedtuple
 
-from jinja2 import Environment, PackageLoader
-
 
 # In the code we follow these conventions:
 #       ABC#    : The "#" corresponds to the combination index.
@@ -80,13 +78,6 @@ class CraneError(ValueError):
 
 
 class CraneLoads(object):
-    skewing_templates = {
-        "IFF": "IFF.tex",
-        "IFM": "IFM.tex",
-        "CFF": "CFF.tex",
-        "CFM": "CFM.tex",
-    }
-
     # necessary input
     _mandatory_values = set(
         """
@@ -102,8 +93,7 @@ class CraneLoads(object):
         data: A dictionary containing all the necessary input
 
         """
-        self.logger = logging.getLogger().getChild("loads")
-        self.env = Environment(loader=PackageLoader('crane_loads', 'templates'))
+        self.logger = logging.getLogger().getChild("cranes")
         self.data = d = data
         self._validate_input()
 
@@ -135,42 +125,6 @@ class CraneLoads(object):
         self.calc_Ht()
         self.calc_Hs()
         self.calc_fatigue()
-
-    def _create_tex(self):
-        # we have to determine which skewing template to use during runtime.
-        skewing_template_name = self.skewing_templates[self.data["RT"]]
-
-        # get templates
-        self.logger.info("Loading templates.")
-        preamble_template = self.env.get_template("preamble.tex")
-        input_template = self.env.get_template("input.tex")
-        forces_template = self.env.get_template("forces.tex")
-        skewing_template = self.env.get_template(skewing_template_name)
-        fatigue_template = self.env.get_template("fatigue.tex")
-        table_template = self.env.get_template("table.tex")
-
-        # render tex document
-        self.logger.info("Rendering templates.")
-        input_text = input_template.render(**self.data)
-        forces_text = forces_template.render(**self.data)
-        skewing_text = skewing_template.render(**self.data)
-        fatigue_text = fatigue_template.render(**self.data)
-        table_text = table_template.render(**self.data)
-
-        self.logger.info("Creating tex document.")
-        tex_document = preamble_template.render(
-            input=input_text,
-            forces=forces_text,
-            skewing=skewing_text,
-            fatigue=fatigue_text,
-            table=table_text,
-        )
-
-        self.logger.info("Document created successfully!")
-        return tex_document
-
-    def to_pdf(self):
-        pass
 
     @classmethod
     def from_module(cls, module_name):
