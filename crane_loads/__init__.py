@@ -32,5 +32,5 @@ __platforms__ = ("Linux",)
 
 # Package imports
 from .utils import OptionsBorg, Config
-from .loads import CraneLoads
+from .crane_loads import CraneLoads
 from .output import LaTeXOutput
