@@ -97,7 +97,7 @@ class LaTeXOutput(CraneOutput):
             subprocess.call([self.engine, self._tex_filename])
             subprocess.call([self.engine, self._tex_filename])
         except Exception as exc:
-            self.logger.exception("Something went wrong while compiling: %s", tex_filename)
+            self.logger.exception("%s: Something went wrong while compiling: %s", self.engine, self._tex_filename)
             raise exc
 
     def _create_build_dir(self):
